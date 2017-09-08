@@ -35,7 +35,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 <div class="wrapper-container">
 	<header id="masthead" class="site-header sticky_header affix-top">
 		<div class="header_top_bar">
-			<div class="container">
+			<div class="container" style="font-size: 14px;">
 				<div class="row">
 					<div class="col-sm-4">
 						<aside id="text-15" class="widget_text">
@@ -57,33 +57,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 								</ul>
 							</div>
 						</aside>
-						<!--<aside id="travel_login_register_from-2" class="widget widget_login_form">
-							<span class="show_from login"><i class="fa fa-user"></i>Đăng nhập</span>
-							<div class="form_popup from_login" tabindex="-1">
-								<div class="inner-form">
-									<div class="closeicon"></div>
-									<h3>Đăng nhập</h3>
-									<form name="loginform" id="loginform" action="#" method="post">
-										<p class="login-username">
-											<label for="user_login">Email Address</label>
-											<input type="email" name="email" id="email" class="input" value="" size="20">
-										</p>
-										<p class="login-password">
-											<label for="user_pass">Password</label>
-											<input type="password" name="password" id="password" class="input" value="" size="20">
-										</p>
-										<p class="login-remember">
-											
-										</p>
-										<p class="login-submit">
-											<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary" value="Log In">
-											<input type="hidden" name="redirect_to" value="">
-										</p>
-									</form>
-									<a href="#" title="Lost your password?" class="lost-pass">Lost your password?</a>
-								</div>
-							</div>
-							<span class="register_btn">Đăng ký</span>
+
+						<aside id="travel_login_register_from-2" class="widget widget_login_form">
 							<div class="form_popup from_register" tabindex="-1">
 								<div class="inner-form">
 									<div class="closeicon"></div>
@@ -105,7 +80,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 										</p>
 									</form>
 								</div>
-							</div>-->
+							</div>
 							<div class="background-overlay"></div>
 						</aside>
 					</div>

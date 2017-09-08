@@ -22,7 +22,7 @@ $danhmuctours_list = $danhmuctours->get_all_list();
                 <h4 class="panel-title"><i class="fa fa-gears"></i> Danh sách Tours STICK</h4>
             </div>
             <div class="panel-body">
-            <a href="themtours.html&url=<?php echo $_SERVER['REQUEST_URI']; ?>" class="btn btn-primary m-b-10" id="themmoi"><i class="fa fa-plus"></i> Thêm mới</a>
+            <a href="themtours.html" class="btn btn-primary m-b-10" id="themmoi"><i class="fa fa-plus"></i> Thêm mới</a>
             <table id="data-table" class="table table-striped table-bordered table-hovered">
                 <thead>
                 	<tr>

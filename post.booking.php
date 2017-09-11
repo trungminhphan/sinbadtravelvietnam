@@ -1,6 +1,7 @@
 <?php
 require_once('header_none.php');
 $booking = new Booking();
+$url = isset($_POST['url']) ? $_POST['url'] : '';
 $hoten = isset($_POST['hoten']) ? $_POST['hoten'] : '';
 $email = isset($_POST['email']) ? $_POST['email'] : '';
 $dienthoai = isset($_POST['dienthoai']) ? $_POST['dienthoai'] : '';
@@ -16,7 +17,8 @@ $booking->ghichu = $ghichu;
 $booking->id_tour = $id_tour;
 
 if($booking->insert()){
-	transfers_to('tour_detail.php?id='.$id_tour.'&book=ok');
+  if($url) transfers_to($url);
+	else transfers_to('tour_detail.php?id='.$id_tour.'&book=ok');
 } else {
 	echo 'Không thể đặt Tour. <a href="tour_detail.html?id='.$id_tour.'">Trở về</a>';
 }

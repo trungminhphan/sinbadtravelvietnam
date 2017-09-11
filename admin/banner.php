@@ -18,7 +18,6 @@ if(isset($_POST['submit'])){
                 array_push($arr_banner, array('filename' => $banner_filename[$key], 'aliasname' => $value,'mota' => $banner_mota[$key], 'link' => $banner_link[$key], 'orders' => $banner_orders[$key]));
             }
         }
-        $arr_banner = sort_array_1($arr_banner, 'orders', SORT_ASC);
 
         $arr_banner_right = array();
         $banner_right_aliasname = isset($_POST['banner_right_aliasname']) ? $_POST['banner_right_aliasname'] : '';
@@ -31,11 +30,25 @@ if(isset($_POST['submit'])){
                 array_push($arr_banner_right, array('filename' => $banner_right_filename[$key], 'aliasname' => $value,'mota' => $banner_right_mota[$key], 'link' => $banner_right_link[$key], 'orders' => $banner_right_orders[$key]));
             }
         }
+
+        $arr_background = array();
+        $background_aliasname = isset($_POST['background_aliasname']) ? $_POST['background_aliasname'] : '';
+        $background_filename = isset($_POST['background_filename']) ? $_POST['background_filename'] : '';
+        $background_orders = isset($_POST['background_orders']) ? $_POST['background_orders'] : '';
+        if($background_aliasname){
+            foreach ($background_aliasname as $key => $value) {
+                array_push($arr_background, array('filename' => $background_filename[$key], 'aliasname' => $value,'orders' => $background_orders[$key]));
+            }
+        }
+
+
         $arr_banner = sort_array_1($arr_banner, 'orders', SORT_ASC);
         $arr_banner_right = sort_array_1($arr_banner_right, 'orders', SORT_ASC);
+        $arr_background = sort_array_1($arr_background, 'orders', SORT_ASC);
 
         $banner->banner = $arr_banner;
         $banner->banner_right = $arr_banner_right;
+        $banner->background = $arr_background;
         if($banner->edit_banner()) transfers_to('banner.html?msg=Lưu Banner thành công');
     }
 }
@@ -124,7 +137,43 @@ if(isset($_POST['submit'])){
                 }
                 ?>
                 </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Background</label>
+                    <div class="col-md-3">
+                        <span class="btn btn-primary fileinput-button">
+                            <i class="fa fa-file-image-o"></i>
+                            <span>Chọn hình background tốt nhất (2000px x 1000px)...</span>
+                            <input type="file" name="background_files[]" multiple class="background_dinhkem">
+                        </span>
+                    </div>
+                </div>
+                <div id="background_list">
+                    <?php
+                    if(isset($t['background']) && $t['background']){
+                        foreach($t['background'] as $bk){
+                            $orders = isset($bk['orders']) ? $bk['orders'] : 0;
+                            echo '<div class="items form-group">';
+                            echo '<div class="col-md-1">
+                                <input type="number" class="form-control" name="background_orders[]" value="'.$orders.'" />
+                              </div>';
+                            echo '<div class="col-md-11">';
+                            echo '<div class="input-group">
+                                    <input type="hidden" class="form-control" name="background_aliasname[]" value="'.$bk['aliasname'].'" readonly/>
+                                    <input type="text" class="form-control" name="background_filename[]" value="'.$bk['filename'].'" readonly/>
+                                    <span class="input-group-addon"><a href="get.xoabackground.html?filename='.$bk['aliasname'].'" onclick="return false;" class="delete_file"><i class="fa fa-trash"></i></a></span>
+                                </div></div></div>';
+                        }
+                    }
+                    ?>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Video Link</label>
+                    <div class="col-md-9">
+                        <input type="text" name="video" id="video" class="form-control">
+                    </div>
+                </div>
             </div>
+
             <div class="modal-footer">
                 <button type="submit" name="submit" id="submit" class="btn btn-primary"><i class="fa fa-check-circle-o"></i> Lưu</button>
             </div>
@@ -142,7 +191,7 @@ if(isset($_POST['submit'])){
 <!-- ================== END PAGE LEVEL JS ================== -->
 <script>
     $(document).ready(function() {
-        upload_banner();upload_banner_right();delete_file();
+        upload_banner();upload_banner_right();upload_background();delete_file();
         <?php if(isset($msg) && $msg) : ?>
         $.gritter.add({
             title:"Thông báo !",

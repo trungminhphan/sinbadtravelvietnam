@@ -3,7 +3,7 @@ require_once('header.php');
 $tours = new Tours(); $banner = new Banner(); $b = $banner->get_one();
 $danhmucdiemden = new DanhMucDiemDen();$danhmuctour = new DanhMucTour();$lichkhoihanh = new LichKhoiHanh();
 $tours_list = $tours->get_all_list();
-$diemden_list = $tours->get_tour_stick();
+$tour_stick = $tours->get_tour_stick();
 $danhmucdiemden_list = $danhmucdiemden->get_all_list();
 $danhmuctour_list = $danhmuctour->get_all_list();
 
@@ -23,7 +23,7 @@ if($id_danhmucdiemden){
 }
 /*if($search_ngaykhoihanh){
 	$nkh = $ngaykhoihanh ? new MongoDate(convert_date_yyyy_mm_dd($ngaykhoihanh)) : '';
-	array_push($query, array('ngaykhoihanh' => $nkh));	
+	array_push($query, array('ngaykhoihanh' => $nkh));
 }*/
 if(count($query) > 0){
 $q = array('$and' => array(
@@ -33,8 +33,13 @@ $q = array('$and' => array(
 } else { $q = array();}
 //$q = array('$or' => $query);
 $tours_list = $tours->get_list_condition($q);
+if(isset($b['background']) && $b['background']){
+	$background = $target_background . $b['background'][0]['aliasname'];
+} else {
+	$background = '';
+}
 ?>
-<div class="site wrapper-content">
+<div class="site wrapper-content" <?php echo $background ? 'style="background: url('.$background.');background-size:cover;"' : ''; ?>>
 	<div class="top_site_main" style="background-image:url(images/banner/top-heading.jpg);">
 		<div class="banner-wrapper container article_heading">
 			<h1 class="heading_primary">KẾT QUẢ TÌM KIẾM</h1>
@@ -141,7 +146,7 @@ $tours_list = $tours->get_list_condition($q);
 				                        }
 				                    ?>
 								</select>
-								<select name="id_danhmucdiemden" id="danhmucdiemden"> 
+								<select name="id_danhmucdiemden" id="danhmucdiemden">
 									<option value="">Điểm đến</option>
 									 <?php
 				                        if($danhmucdiemden_list){
@@ -158,33 +163,33 @@ $tours_list = $tours->get_list_condition($q);
 					</div>
 					<aside class="widget widget_travel_tour">
 						<div class="wrapper-special-tours">
-							<?php if($diemden_list): ?>
-							<div class="wrapper-special-tours">
-							<?php
-							foreach($diemden_list as $dd){
-								if($dd['hinhanh'][0]['aliasname']){
-									$file = $target_images . $dd['hinhanh'][0]['aliasname'];
-									$thumb = $target_images . '430x305/' . $dd['hinhanh'][0]['aliasname'];
-									if(!file_exists($thumb)){
-										resize_image($file , null, 430, 305, false , $thumb , false , false ,100 );
-									}
-								} else {
-									$thumb = 'images/tour/430x305/tour-2.jpg';
+							<h2 style="padding-bottom:10px;border-bottom:2px solid #ccc;">Tour nổi bật</h2>
+						<?php if($tour_stick): ?>
+						<div class="wrapper-special-tours">
+						<?php
+						foreach($tour_stick as $dd){
+							if($dd['hinhanh'][0]['aliasname']){
+								$file = $target_images . $dd['hinhanh'][0]['aliasname'];
+								$thumb = $target_images . '80x60/' . $dd['hinhanh'][0]['aliasname'];
+								if(!file_exists($thumb)){
+									resize_image($file , null, 80, 60, false , $thumb , false , false ,100);
 								}
-								echo '<div class="inner-special-tours">
-									<a href="single-tour.html">
-										<img width="430" height="305" src="'.$thumb.'" alt="'.$dd['tieude'].'" title="'.$dd['tieude'].'"></a>
-									<div class="post_title"><h3>
-										<a href="tour_detail.html?id='.$dd['_id'].'" rel="bookmark">'.$dd['tieude'].'</a>
-									</h3></div>
-									<div class="item_price">
-										<span class="price">'.format_number($dd['giatour']).' VNĐ</span>
+							} else {
+								$thumb = 'images/tour/430x305/tour-2.jpg';
+							}
+							echo '<div class="inner-special-tours">
+									<div class="post_title">
+										<a href="tour_detail.html?id='.$dd['_id'].'" rel="bookmark">
+											<img width="80" height="60" src="'.$thumb.'" alt="'.$dd['tieude'].'" title="'.$dd['tieude'].'">
+											'.$dd['tieude'].' <br />
+											Giá: <b>'.format_number($dd['giatour']).' VNĐ</b>
+										</a>
 									</div>
-									</div>';
-								}
-							?>
-							</div>
-						<?php endif; ?>
+								</div>';
+							}
+						?>
+						</div>
+					<?php endif; ?>
 						</div>
 					</aside>
 				</div>

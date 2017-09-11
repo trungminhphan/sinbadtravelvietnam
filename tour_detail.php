@@ -4,10 +4,19 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 $book = isset($_GET['book']) ? $_GET['book'] : '';
 $tours = new Tours();$tours->id = $id; $t = $tours->get_one();
 $danhmuctour = new DanhMucTour();$lichkhoihanh = new LichKhoiHanh();
-$diemden_list = $tours->get_tour_stick();
+$tour_stick = $tours->get_tour_stick();
+$id_danhmuctour = $t['id_danhmuctour'];
+$relates = $tours->get_relates_tour($id_danhmuctour);
+$banner = new Banner(); $b = $banner->get_one();
+if(isset($b['background']) && $b['background']){
+	$background = $target_background . $b['background'][0]['aliasname'];
+} else {
+	$background = '';
+}
+
 ?>
 <script type="text/javascript" src="assets/js/html5.messages.js"></script>
-<div class="site wrapper-content">
+<div class="site wrapper-content" <?php echo $background ? 'style="background: url('.$background.');background-size:cover;"' : ''; ?>>
 	<div class="top_site_main" style="background-image:url(images/banner/top-heading.jpg);">
 		<div class="banner-wrapper container article_heading">
 			<h2 class="heading_primary">Thông tin chi tiết Tour</h2>
@@ -34,7 +43,7 @@ $diemden_list = $tours->get_tour_stick();
 						<div class="tour_after_title" style="text-align:justify;">
 							<?php if($users->isLoggedIn() && $users->is_admin()): ?>
 								<div style="clear:both; text-align:right;">
-									<a href="admin/themtours.html?id=<?php echo $t['_id']; ?>&act=edit&url=<?php echo $_SERVER['REQUEST_URI']; ?>" class="btn btn-success">Edit</a> 
+									<a href="admin/themtours.html?id=<?php echo $t['_id']; ?>&act=edit&url=<?php echo $_SERVER['REQUEST_URI']; ?>" class="btn btn-success">Edit</a>
 								</div>
 							<?php endif; ?>
 							<?php echo $t['mota']; ?>
@@ -42,7 +51,7 @@ $diemden_list = $tours->get_tour_stick();
 								<?php if(isset($t['giagiamtour']) && $t['giagiamtour'] > 0) : ?>
 									<b>Giá Tour:</b> <span style="color:#ff0000;font-size:18px;font-weight:bold;"><?php echo format_number($t['giagiamtour']); ?> VNĐ</span>&nbsp;&nbsp;&nbsp;<span><strike><?php echo format_number($t['giatour']); ?> VNĐ</strike></span>
 								<?php else: ?>
-									<b>Giá Tour:</b> <span style="color:#ff0000;font-size:18px;font-weight:bold;"><?php echo format_number($t['giatour']); ?> VNĐ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	
+									<b>Giá Tour:</b> <span style="color:#ff0000;font-size:18px;font-weight:bold;"><?php echo format_number($t['giatour']); ?> VNĐ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<?php endif; ?>
 								<?php
 								$ngaykhoihanh = ''; $ngayketthuc='';
@@ -159,79 +168,6 @@ $diemden_list = $tours->get_tour_stick();
 								</div>
 							</div>
 						</div>
-						<?php
-						$relates = $tours->get_tourmoi();
-						?>
-						<?php if($relates) : ?>
-						<div class="related tours">
-							<h2>Tours liên quan</h2>
-							<ul class="tours products wrapper-tours-slider">
-							<?php
-							foreach ($relates as $r) {
-								$rlich = $lichkhoihanh->get_one_condition(array('id_tours' => strval($r['_id'])));
-								if($rlich['ngaykhoihanh'] && is_array($rlich['ngaykhoihanh'])){
-									foreach($rlich['ngaykhoihanh'] as $key => $value){
-										if(date("Y-m-d", $value->sec) >= date("Y-m-d")){
-											$ngaykhoihanh = date("d/m/Y", $value->sec);
-											$ngayketthuc = date("d/m/Y", $rlich['ngayketthuc'][$key]->sec);
-											break;
-										}
-									}
-								} else {
-									$ngaykhoihanh = date("d/m/Y");
-									$ngayketthuc = date("d/m/Y");
-								}
-								if($r['hinhanh'][0]['aliasname']){
-									$file = $target_images . $r['hinhanh'][0]['aliasname'];
-									$thumb = $target_images . '430x305/' . $r['hinhanh'][0]['aliasname'];
-									if(!file_exists($thumb)){
-										resize_image($file , null, 430, 305, false , $thumb , false , false ,100 );
-									}
-								} else {
-									$thumb = 'images/tour/430x305/tour-2.jpg';
-								}
-							?>
-							<li class="item-list-tour col-md-12 product">
-								<div class="content-list-tour">
-									<div class="post_images">
-										<a href="tour_detail.html?id=<?php echo $r['_id'];?>">
-											<img width="430" height="305" src="<?php echo $thumb; ?>" alt="<?php echo $r['tieude']; ?>" title="<?php echo $r['tieude']; ?>">
-										</a>
-									</div>
-									<div class="wrapper_content">
-										<div class="content-left">
-											<div class="post_title"><h4>
-												<a href="tour_detail.html?id=<?php echo $r['_id'];?>"><?php echo $r['tieude']; ?></a>
-											</h4></div>
-											<div class="description">
-												<?php echo $r['mota']; ?>
-											</div>
-										</div>
-										<div class="content-right">
-											<ul>
-												<?php if(isset($r['giagiamtour']) && $r['giagiamtour'] > 0) : ?>
-												<li style="line-height: 15px;">
-													<i class="fa fa-money"></i> Giá: <span style="font-size:18px;"><?php echo format_number($r['giagiamtour']); ?></span>
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													<span style="color:#ff0000;"><strike><?php echo format_number($r['giatour']); ?></strike></span>
-												</li>
-												<?php else: ?>
-												<li style="line-height: 15px;">
-													<i class="fa fa-money"></i> Giá: <span style="font-size:18px;"><?php echo format_number($r['giatour']); ?></span>
-												</li>
-												<?php endif; ?>
-												<li style="padding-top: 10px;"><i class="fa fa-plane"></i> Khởi hành: <?php echo $ngaykhoihanh; ?></li>
-												<li><i class="fa fa-reply-all"></i> Kết thúc: <?php echo $ngayketthuc; ?></li>
-												<li><i class="fa fa-tags"></i> <?php echo $danhmuctour->get_tours($r['id_danhmuctour']); ?></li>
-											</ul>
-										</div>
-									</div>
-								</div>
-							</li>
-							<?php } ?>
-							</ul>
-						</div>
-						<?php endif; ?>
 					</div>
 					<div class="summary entry-summary description_single">
 						<div class="affix-sidebar">
@@ -267,28 +203,56 @@ $diemden_list = $tours->get_tour_stick();
 							<div class="widget-area align-left col-sm-3">
 								<aside class="widget widget_travel_tour">
 									<div class="wrapper-special-tours">
-										<?php if($diemden_list): ?>
-										<div class="wrapper-special-tours">
+										<h2>Tour Liên quan</h2>
+										<?php if($relates): ?>
+										<div class="wrapper-special-tours" style="margin-bottom:50px;">
 										<?php
-										foreach($diemden_list as $dd){
-											if($dd['hinhanh'][0]['aliasname']){
-												$file = $target_images . $dd['hinhanh'][0]['aliasname'];
-												$thumb = $target_images . '430x305/' . $dd['hinhanh'][0]['aliasname'];
+										foreach($relates as $r){
+											if($r['hinhanh'][0]['aliasname']){
+												$file = $target_images . $r['hinhanh'][0]['aliasname'];
+												$thumb = $target_images . '80x60/' . $r['hinhanh'][0]['aliasname'];
 												if(!file_exists($thumb)){
-													resize_image($file , null, 430, 305, false , $thumb , false , false ,100 );
+													resize_image($file , null, 80, 60, false , $thumb , false , false ,100);
 												}
 											} else {
 												$thumb = 'images/tour/430x305/tour-2.jpg';
 											}
 											echo '<div class="inner-special-tours">
-												<a href="single-tour.html">
-													<img width="430" height="305" src="'.$thumb.'" alt="'.$dd['tieude'].'" title="'.$dd['tieude'].'"></a>
-												<div class="post_title"><h3>
-													<a href="tour_detail.html?id='.$dd['_id'].'" rel="bookmark">'.$dd['tieude'].'</a>
-												</h3></div>
-												<div class="item_price">
-													<span class="price">'.format_number($dd['giatour']).' VNĐ</span>
-												</div>
+													<div class="post_title">
+														<a href="tour_detail.html?id='.$r['_id'].'" rel="bookmark">
+															<img width="80" height="60" src="'.$thumb.'" alt="'.$r['tieude'].'" title="'.$r['tieude'].'">
+															'.$r['tieude'].' <br />
+															Giá: <b>'.format_number($r['giatour']).' VNĐ</b>
+														</a>
+													</div>
+												</div>';
+											}
+										?>
+										</div>
+									<?php endif; ?>
+
+										<h2>Tour nổi bật</h2>
+										<?php if($tour_stick): ?>
+										<div class="wrapper-special-tours">
+										<?php
+										foreach($tour_stick as $dd){
+											if($dd['hinhanh'][0]['aliasname']){
+												$file = $target_images . $dd['hinhanh'][0]['aliasname'];
+												$thumb = $target_images . '80x60/' . $dd['hinhanh'][0]['aliasname'];
+												if(!file_exists($thumb)){
+													resize_image($file , null, 80, 60, false , $thumb , false , false ,100);
+												}
+											} else {
+												$thumb = 'images/tour/430x305/tour-2.jpg';
+											}
+											echo '<div class="inner-special-tours">
+													<div class="post_title">
+														<a href="tour_detail.html?id='.$dd['_id'].'" rel="bookmark">
+															<img width="80" height="60" src="'.$thumb.'" alt="'.$dd['tieude'].'" title="'.$dd['tieude'].'">
+															'.$dd['tieude'].' <br />
+															Giá: <b>'.format_number($dd['giatour']).' VNĐ</b>
+														</a>
+													</div>
 												</div>';
 											}
 										?>

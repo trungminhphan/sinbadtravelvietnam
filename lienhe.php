@@ -1,8 +1,14 @@
-<?php 
+<?php
 require_once('header.php');
 $banner = new Banner();$b = $banner->get_one();
+$banner = new Banner(); $b = $banner->get_one();
+if(isset($b['background']) && $b['background']){
+	$background = $target_background . $b['background'][0]['aliasname'];
+} else {
+	$background = '';
+}
 ?>
-<div class="site wrapper-content">
+<div class="site wrapper-content" <?php echo $background ? 'style="background: url('.$background.');background-size:cover;"' : ''; ?>>
 	<div class="top_site_main" style="background-image:url(images/banner/top-heading.jpg);">
 		<div class="banner-wrapper container article_heading">
 			<h1 class="heading_primary">Liên hệ</h1>
@@ -13,7 +19,7 @@ $banner = new Banner();$b = $banner->get_one();
 			<div class="row">
 				<div class="site-main col-sm-9 alignleft">
 					<div class="video-container">
-						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1502.3804403856573!2d105.4590671694229!3d10.34752606505375!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310a739c0203af9b%3A0x546bf3e067547ff4!2zVUJORCBwaMaw4budbmcgTeG7uSBUaOG7m2k!5e0!3m2!1sen!2s!4v1504322956391" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+						<iframe src="https://www.google.com/maps/embed?pb=!1m24!1m12!1m3!1d490.61637117830986!2d105.45906439155092!3d10.34740484002016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m9!3e6!4m3!3m2!1d10.3474804!2d105.45921919999999!4m3!3m2!1d10.3474427!2d105.45921279999999!5e0!3m2!1sen!2s!4v1505100728702" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
 					</div>
 					<div class="pages_content padding-top-4x">
 						<h4>Sinbad Travel Service Limited Company</h4>

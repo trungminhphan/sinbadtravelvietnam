@@ -3,8 +3,14 @@ require_once('header.php');
 $tuvanvisa = new TuVanViSa();
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $tuvanvisa->id = $id; $tv = $tuvanvisa->get_one();
+$banner = new Banner(); $b = $banner->get_one();
+if(isset($b['background']) && $b['background']){
+	$background = $target_background . $b['background'][0]['aliasname'];
+} else {
+	$background = '';
+}
 ?>
-<div class="site wrapper-content">
+<div class="site wrapper-content" <?php echo $background ? 'style="background: url('.$background.');background-size:cover;"' : ''; ?>>
 	<div class="top_site_main" style="background-image:url(images/banner/top-heading.jpg);">
 		<div class="banner-wrapper container article_heading">
 			<h1 class="heading_primary">Chi tiết tư vấn VISA</h1>

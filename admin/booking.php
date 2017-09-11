@@ -43,7 +43,7 @@ $booking_list = $booking->get_all_list();
                                 <td>'.$dm['hoten'].'</td>
                                 <td>'.$dm['dienthoai'].'</td>
                                 <td>'.$dm['email'].'</td>
-                                <td><a href="http://tourinstyle.vn/tour_detail.html?id='.$t['_id'].'">'.$t['tieude'].'</a></td>
+                                <td><a href="http://sinbadtravelvietnam.com/tour_detail.html?id='.$t['_id'].'">'.$t['tieude'].'</a></td>
                                 <td>'.$dm['sove'].'</td>
                                 <td class="text-center"><a href="get.booking.html?id='.$dm['_id'].'&act=del" onclick="return confirm(\'Chắc chắn muốn xoá?\');"><i class="fa fa-trash"></i></a></td>
                             </tr>';$i++;
@@ -73,7 +73,7 @@ $booking_list = $booking->get_all_list();
         $("#themdmtintuc").click(function(){
             $("#id").val();$("#act").val();
         });
-        
+
         $(".suadmtintuc").click(function(){
             var _link = $(this).attr("href");
             $.getJSON(_link, function(data){
@@ -89,7 +89,7 @@ $booking_list = $booking->get_all_list();
             sticky:false,
             time:""
         });
-        <?php endif; ?>  
+        <?php endif; ?>
         App.init();TableManageDefault.init();
     });
 </script>

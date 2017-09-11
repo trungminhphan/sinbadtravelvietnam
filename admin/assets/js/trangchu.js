@@ -151,24 +151,24 @@ function upload_banner_right(){
     });
 }
 
-function upload_hanghoa(){
-    $(".hanghoa_dinhkem").change(function() {
-      var formData = new FormData($("#thongtinhanghoaform")[0]);
+function upload_background(){
+    $(".background_dinhkem").change(function() {
+      var formData = new FormData($("#bannerform")[0]);
        $.ajax({
-        url: "post.upload_thongtinhanghoa.php", type: "POST",
+        url: "post.upload_background.php", type: "POST",
         data: formData, async: false,
         success: function(datas) {
             if(datas=='Failed'){
                 $.gritter.add({
-                    title:"Không thể Thêm Hàng Hóa",
-                    text:"<?php echo $msg; ?>",
+                    title:"Không thể Thêm Background",
+                    text:"Không thể Thêm Background",
                     image:"assets/img/login.png",
                     sticky:false,
                     time:""
                 });
             } else {
                 //$(".info").remove();
-                $("#hanghoa_list").prepend(datas); delete_file();
+                $("#background_list").prepend(datas); delete_file();
             }
         },
         cache: false, contentType: false, processData: false

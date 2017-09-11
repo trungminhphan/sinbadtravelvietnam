@@ -3,13 +3,18 @@ require_once('header.php');
 $tours = new Tours(); $banner = new Banner(); $b = $banner->get_one();
 $danhmucdiemden = new DanhMucDiemDen();$danhmuctour = new DanhMucTour();$lichkhoihanh = new LichKhoiHanh();
 $tours_list = $tours->get_all_list_show();
-$diemden_list = $tours->get_tour_stick();
+$tour_stick = $tours->get_tour_stick();
 $danhmucdiemden_list = $danhmucdiemden->get_all_list();
 $danhmuctour_list = $danhmuctour->get_all_list();
+if(isset($b['background']) && $b['background']){
+	$background = $target_background . $b['background'][0]['aliasname'];
+} else {
+	$background = '';
+}
 ?>
 <link href="admin/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
 <link href="admin/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
-<div class="site wrapper-content">
+<div class="site wrapper-content" <?php echo $background ? 'style="background: url('.$background.');background-size:cover;"' : ''; ?>>
 	<?php if($b) : ?>
 	<div class="home-content" role="main">
 		<div class="top_site_main"></div>
@@ -52,7 +57,7 @@ $danhmuctour_list = $danhmuctour->get_all_list();
 				<div class="site-main col-sm-9 alignright">
 					<ul class="tours products wrapper-tours-slider">
 					<?php
-						foreach($tours_list as $tour): 
+						foreach($tours_list as $tour):
 							if($tour['hinhanh'][0]['aliasname']){
 								$file = $target_images . $tour['hinhanh'][0]['aliasname'];
 								$thumb = $target_images . '430x305/' . $tour['hinhanh'][0]['aliasname'];
@@ -82,11 +87,11 @@ $danhmuctour_list = $danhmuctour->get_all_list();
 								<div class="read_more">
 									<div class="item_rating">
 										<?php if($users->isLoggedIn() && $users->is_admin()): ?>
-												<a href="admin/themtours.html?id=<?php echo $tour['_id']; ?>&act=edit&url=<?php echo $_SERVER['REQUEST_URI']; ?>" class="btn btn-success">Edit</a> 
+												<a href="admin/themtours.html?id=<?php echo $tour['_id']; ?>&act=edit&url=<?php echo $_SERVER['REQUEST_URI']; ?>" class="btn btn-success">Edit</a>
 											<?php endif; ?>
 									</div>
-									<a rel="nofollow" href="#" class="button product_type_tour_phys add_to_cart_button register_btn" onclick="return false;">Book now</a>
-																
+									<a rel="nofollow" href="<?php echo $tour['_id']; ?>" class="button product_type_tour_phys add_to_cart_button register_btn" onclick="return false;">Book now</a>
+
 								</div>
 							</div>
 						</li>
@@ -109,7 +114,7 @@ $danhmuctour_list = $danhmuctour->get_all_list();
 				                        }
 				                    ?>
 								</select>
-								<select name="id_danhmucdiemden" id="danhmucdiemden"> 
+								<select name="id_danhmucdiemden" id="danhmucdiemden">
 									<option value="">Điểm đến</option>
 									 <?php
 				                        if($danhmucdiemden_list){
@@ -125,29 +130,28 @@ $danhmuctour_list = $danhmuctour->get_all_list();
 						</div>
 					</div>
 					<aside class="widget widget_travel_tour">
-					<?php if($diemden_list): ?>
+					<h2 style="padding-bottom:10px;border-bottom:2px solid #ccc;">Tour nổi bật</h2>
+						<?php if($tour_stick): ?>
 						<div class="wrapper-special-tours">
 						<?php
-						foreach($diemden_list as $dd){
+						foreach($tour_stick as $dd){
 							if($dd['hinhanh'][0]['aliasname']){
 								$file = $target_images . $dd['hinhanh'][0]['aliasname'];
-								$thumb = $target_images . '430x305/' . $dd['hinhanh'][0]['aliasname'];
+								$thumb = $target_images . '80x60/' . $dd['hinhanh'][0]['aliasname'];
 								if(!file_exists($thumb)){
-									resize_image($file , null, 430, 305, false , $thumb , false , false ,100 );
+									resize_image($file , null, 80, 60, false , $thumb , false , false ,100);
 								}
 							} else {
 								$thumb = 'images/tour/430x305/tour-2.jpg';
 							}
 							echo '<div class="inner-special-tours">
-								<a href="tour_detail.html?id='.$dd['_id'].'">
-									<img width="430" height="305" src="'.$thumb.'" alt="'.$dd['tieude'].'" title="'.$dd['tieude'].'">
-								</a>
-								<div class="post_title">
-									<h3><a href="tour_detail.html?id='.$dd['_id'].'" rel="bookmark">'.$dd['tieude'].'</a></h3>
-								</div>
-								<div class="item_price">
-									<span class="price">'.format_number($dd['giatour']).' VNĐ</span>
-								</div>
+									<div class="post_title">
+										<a href="tour_detail.html?id='.$dd['_id'].'" rel="bookmark">
+											<img width="80" height="60" src="'.$thumb.'" alt="'.$dd['tieude'].'" title="'.$dd['tieude'].'">
+											'.$dd['tieude'].' <br />
+											Giá: <b>'.format_number($dd['giatour']).' VNĐ</b>
+										</a>
+									</div>
 								</div>';
 							}
 						?>

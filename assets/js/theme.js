@@ -142,11 +142,15 @@ var custom_js = {
 			body.addClass("show_form_popup_login");
 		});
 		jQuery('.register_btn').on('click', function (e) {
+			var _this = jQuery(this);
+			jQuery("#id_tour").val(_this.attr("href"));
 			body.addClass("show_form_popup_register");
+
 		});
 		jQuery('.closeicon').on('click', function (e) {
 			body.removeClass("show_form_popup_login");
 			body.removeClass("show_form_popup_register");
+
 		});
 	},
 	generateCarousel: function () {

@@ -62,21 +62,31 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 							<div class="form_popup from_register" tabindex="-1">
 								<div class="inner-form">
 									<div class="closeicon"></div>
-									<h3>Điền thông tin đăng ký</h3>
-									<form method="post" class="register">
+									<h3>Điền thông tin đặt Tour</h3>
+									<form method="POST" class="register" action="post.booking.html">
+										<input type="hidden" name="id_tour" id="id_tour" value="" />
+										<input type="hidden" name="url" id="url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 										<p class="form-row">
-											<label for="reg_email">Email address <span class="required">*</span></label>
-											<input type="email" class="input" name="email" id="reg_email" value="">
+											<label for="reg_email">Họ tên<span class="required">*</span></label>
+											<input type="text" class="input" name="hoten" id="hoten" value="" required>
 										</p>
 										<p class="form-row">
-											<label for="reg_password">Password <span class="required">*</span></label>
-											<input type="password" class="input" name="password" id="reg_password">
+											<label for="reg_email">Địa chỉ Email<span class="required">*</span></label>
+											<input type="email" class="input" name="email" id="email" value="" required>
 										</p>
-										<div style="left: -999em; position: absolute;">
-											<label for="trap">Anti-spam</label><input type="text" name="email_2" id="trap" tabindex="-1" autocomplete="off">
-										</div>
 										<p class="form-row">
-											<input type="submit" class="button" name="register" value="Register">
+											<label for="reg_email">Điện thoại<span class="required">*</span></label>
+											<input type="text" class="input" name="dienthoai" id="dienthoai" value="" required>
+										</p>
+										<p class="form-row">
+											<label for="reg_email">Số vé<span class="required"></span></label>
+											<input type="text" class="input" name="sove" id="sove" value="1" required>
+										</p>
+										<p class="form-row">
+											<textarea name="ghichu" id="ghichu" cols="10" rows="5" placeholder="Ghi chú"></textarea>
+										</p>
+										<p class="form-row">
+											<input type="submit" class="button" name="register" value="Gửi đi">
 										</p>
 									</form>
 								</div>
@@ -105,7 +115,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 						<li class="<?php echo $l == 'index.html' ? 'current-menu-ancestor' : ''; ?>">
 							<a href="index.html">Trang chủ</a>
 						</li>
-						<?php 
+						<?php
 						if($danhmuctour_list){
 							foreach($danhmuctour_list as $t){
 								echo '<li class="'.($l=='tours.html' && $id==$t['_id'] ? 'current-menu-ancestor' :'').'">

@@ -1,5 +1,5 @@
-<?php 
-require_once('header.php'); 
+<?php
+require_once('header.php');
 $msg = isset($_GET['msg']) ? $_GET['msg'] : '';
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $act = isset($_GET['act']) ? $_GET['act'] : '';
@@ -89,7 +89,7 @@ if(isset($_POST['submit'])){
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                 </div>
-                <h4 class="panel-title"><i class="fa fa-gears"></i> Nhập thông tin Tư vấn VISA</h4>
+                <h4 class="panel-title"><i class="fa fa-gears"></i> Nhập thông tin TIỆN ÍCH</h4>
             </div>
             <div class="panel-body">
                 <div class="form-group">
@@ -115,11 +115,11 @@ if(isset($_POST['submit'])){
                 <div class="form-group">
                     <label class="col-md-3 control-label">Hiển thị</label>
                     <div class="col-md-3" id="hienthi_html">
-                        <input type="checkbox" name="hienthi" id="hienthi" value="1" data-render="switchery" data-theme="default" <?php echo ($id && $hienthi == 0) ? '' : 'checked';?> /> 
+                        <input type="checkbox" name="hienthi" id="hienthi" value="1" data-render="switchery" data-theme="default" <?php echo ($id && $hienthi == 0) ? '' : 'checked';?> />
                     </div>
                     <label class="col-md-3 control-label">Sắp xếp</label>
                     <div class="col-md-3" id="hienthi_html">
-                        <input type="number" name="orders" id="orders" value="<?php echo isset($orders) ? $orders : 0; ?>" class="form-control"/> 
+                        <input type="number" name="orders" id="orders" value="<?php echo isset($orders) ? $orders : 0; ?>" class="form-control"/>
                     </div>
                 </div>
                 <div class="form-group">

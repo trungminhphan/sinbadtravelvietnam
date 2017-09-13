@@ -46,9 +46,11 @@ if(isset($_POST['submit'])){
         $arr_banner_right = sort_array_1($arr_banner_right, 'orders', SORT_ASC);
         $arr_background = sort_array_1($arr_background, 'orders', SORT_ASC);
 
+        $video = isset($_POST['video']) ? $_POST['video'] : '';
         $banner->banner = $arr_banner;
         $banner->banner_right = $arr_banner_right;
         $banner->background = $arr_background;
+        $banner->video = $video;
         if($banner->edit_banner()) transfers_to('banner.html?msg=Lưu Banner thành công');
     }
 }
@@ -169,7 +171,7 @@ if(isset($_POST['submit'])){
                 <div class="form-group">
                     <label class="col-md-3 control-label">Video Link</label>
                     <div class="col-md-9">
-                        <input type="text" name="video" id="video" class="form-control">
+                        <input type="text" name="video" id="video" class="form-control" value="<?php echo isset($t['video']) ? $t['video'] : ''; ?>">
                     </div>
                 </div>
             </div>

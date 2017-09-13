@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('header.php');
 $msg = isset($_GET['msg']) ? $_GET['msg'] : '';
 $tuvanvisa = new TuVanViSa();
@@ -15,7 +15,7 @@ $list = $tuvanvisa->get_all_list();
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
                     <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
                 </div>
-                <h4 class="panel-title"><i class="fa fa-gears"></i> Danh sách Tư vấn VISA</h4>
+                <h4 class="panel-title"><i class="fa fa-gears"></i> Danh sách TIỆN ÍCH</h4>
             </div>
             <div class="panel-body">
             <a href="themtuvanvisa.html" class="btn btn-primary m-b-10" id="themmoi"><i class="fa fa-plus"></i> Thêm mới</a>

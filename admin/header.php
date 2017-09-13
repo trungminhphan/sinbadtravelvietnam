@@ -71,7 +71,7 @@ if($users->isLoggedIn() && !$users->is_admin() && !$users->is_manager()){
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown navbar-user">
 						<a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-							<i class="fa fa-user"></i> 
+							<i class="fa fa-user"></i>
 							<span class="hidden-xs">
 								<?php echo $user_default['hoten']; ?>
 							</span> <b class="caret"></b>
@@ -129,7 +129,7 @@ if($users->isLoggedIn() && !$users->is_admin() && !$users->is_manager()){
                 </li>
                 <li class="has-sub">
                     <a href="tours.html">
-                        <i class="fa fa-video-camera"></i> 
+                        <i class="fa fa-video-camera"></i>
                         <b class="caret pull-right"></b>
                         <span>TOURS</span>
                     </a>
@@ -142,20 +142,20 @@ if($users->isLoggedIn() && !$users->is_admin() && !$users->is_manager()){
                 </li>
                 <li>
                     <a href="booking.html">
-                        <i class="fa fa-book"></i> 
+                        <i class="fa fa-book"></i>
                         <span>BOOKING</span>
                     </a>
                 </li>
                 <li>
                     <a href="tuvanvisa.html">
-                        <i class="fa fa-credit-card"></i> 
-                        <span>TƯ VẤN VISA</span>
+                        <i class="fa fa-credit-card"></i>
+                        <span>TIỆN ÍCH</span>
                     </a>
                 </li>
 
                 <li>
                     <a href="banner.html">
-                        <i class="fa fa-puzzle-piece"></i> 
+                        <i class="fa fa-puzzle-piece"></i>
                         <span>BANNER</span>
                     </a>
                 </li>

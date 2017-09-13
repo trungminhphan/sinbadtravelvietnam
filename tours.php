@@ -69,6 +69,12 @@ if(isset($b['background']) && $b['background']){
 					</ul>
 				</div>
 				<div class="widget-area align-left col-sm-3">
+					<?php if(isset($b['video']) && $b['video']) : ?>
+					<div class="search_tour">
+						<h3 class="form-block_title">Video giới thiệu</h3>
+						<iframe width="100%" height="auto" src="<?php echo $b['video']; ?>" frameborder="0" allowfullscreen></iframe>
+					</div>
+					<?php endif; ?>
 					<div class="search_tour">
 						<div class="form-block block-after-indent">
 							<h3 class="form-block_title">Tìm kiếm</h3>

@@ -53,20 +53,8 @@ if(isset($b['background']) && $b['background']){
 			<div class="row">
 				<div class="site-main col-sm-9 alignright">
 					<ul class="tours products wrapper-tours-slider">
-						<?php foreach($tours_list as $tour):
-							$lich = $lichkhoihanh->get_one_condition(array('id_tours' => strval($tour['_id'])));
-							if($lich['ngaykhoihanh'] && is_array($lich['ngaykhoihanh'])){
-								foreach($lich['ngaykhoihanh'] as $key => $value){
-									if(date("Y-m-d", $value->sec) >= date("Y-m-d")){
-										$ngaykhoihanh = date("d/m/Y", $value->sec);
-										$ngayketthuc = date("d/m/Y", $lich['ngayketthuc'][$key]->sec);
-										break;
-									}
-								}
-							} else {
-								$ngaykhoihanh = date("d/m/Y");
-								$ngayketthuc = date("d/m/Y");
-							}
+					<?php
+						foreach($tours_list as $tour):
 							if($tour['hinhanh'][0]['aliasname']){
 								$file = $target_images . $tour['hinhanh'][0]['aliasname'];
 								$thumb = $target_images . '430x305/' . $tour['hinhanh'][0]['aliasname'];
@@ -76,50 +64,35 @@ if(isset($b['background']) && $b['background']){
 							} else {
 								$thumb = 'images/tour/430x305/tour-2.jpg';
 							}
-							?>
-
-							<?php $show=false; if($search_ngaykhoihanh && $ngaykhoihanh == $search_ngaykhoihanh) $show = true;
-							else if(!$search_ngaykhoihanh) $show = true; ?>
-							<?php if($show==true): ?>
-							<li class="item-list-tour col-md-12 product">
-								<div class="content-list-tour">
-									<div class="post_images">
-										<a href="tour_detail.html?id=<?php echo $tour['_id'];?>">
-											<img width="430" height="305" src="<?php echo $thumb; ?>" alt="<?php echo $tour['tieude']; ?>" title="<?php echo $tour['tieude']; ?>">
-										</a>
-									</div>
-									<div class="wrapper_content">
-										<div class="content-left">
-											<div class="post_title"><h4>
-												<a href="tour_detail.html?id=<?php echo $tour['_id'];?>"><?php echo $tour['tieude']; ?></a>
-											</h4></div>
-											<div class="description">
-												<?php echo $tour['mota']; ?>
-											</div>
-										</div>
-										<div class="content-right">
-											<ul>
-												<?php if(isset($tour['giagiamtour']) && $tour['giagiamtour'] > 0) : ?>
-												<li style="line-height: 15px;">
-													<i class="fa fa-money"></i> Giá: <span style="font-size:18px;"><?php echo format_number($tour['giagiamtour']); ?></span>
-													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-													<span style="color:#ff0000;"><strike><?php echo format_number($tour['giatour']); ?></strike></span>
-												</li>
-												<?php else: ?>
-												<li style="line-height: 15px;">
-													<i class="fa fa-money"></i> Giá: <span style="font-size:18px;"><?php echo format_number($tour['giatour']); ?></span>
-												</li>
-												<?php endif; ?>
-												<li style="padding-top: 10px;"><i class="fa fa-plane"></i> Khởi hành: <?php echo $ngaykhoihanh; ?></li>
-												<li><i class="fa fa-reply-all"></i> Kết thúc: <?php echo $ngayketthuc; ?></li>
-												<li><i class="fa fa-tags"></i> <?php echo $danhmuctour->get_tours($tour['id_danhmuctour']); ?></li>
-											</ul>
-										</div>
-									</div>
+					?>
+						<li class="item-tour col-md-4 col-sm-6 product">
+							<div class="item_border item-product">
+								<div class="post_images">
+									<a href="tour_detail.html?id=<?php echo $tour['_id'];?>">
+										<span class="price">
+										<?php echo nl2br($tour['mota']); ?>
+										</span>
+										<img width="430" height="305" src="<?php echo $thumb; ?>" alt="<?php echo $tour['tieude']; ?>" title="<?php echo $tour['tieude']; ?>">
+									</a>
 								</div>
-							</li>
-							<?php endif; ?>
-						<?php endforeach; ?>
+								<div class="wrapper_content">
+									<div class="post_title"><h4>
+										<a href="tour_detail.html?id=<?php echo $tour['_id'];?>"><?php echo $tour['tieude']; ?></a>
+									</h4></div>
+									<span class="price"><?php echo format_number($tour['giatour']); ?> VNĐ</span>
+								</div>
+								<div class="read_more">
+									<div class="item_rating">
+										<?php if($users->isLoggedIn() && $users->is_admin()): ?>
+												<a href="admin/themtours.html?id=<?php echo $tour['_id']; ?>&act=edit&url=<?php echo $_SERVER['REQUEST_URI']; ?>" class="btn btn-success">Edit</a>
+											<?php endif; ?>
+									</div>
+									<a rel="nofollow" href="<?php echo $tour['_id']; ?>" class="button product_type_tour_phys add_to_cart_button register_btn" onclick="return false;">Book now</a>
+
+								</div>
+							</div>
+						</li>
+					<?php endforeach; ?>
 					</ul>
 					<!--<div class="navigation paging-navigation" role="navigation">
 						<ul class="page-numbers">
@@ -131,6 +104,12 @@ if(isset($b['background']) && $b['background']){
 					</div>-->
 				</div>
 				<div class="widget-area align-left col-sm-3">
+					<?php if(isset($b['video']) && $b['video']) : ?>
+					<div class="search_tour">
+						<h3 class="form-block_title">Video giới thiệu</h3>
+						<iframe width="100%" height="auto" src="<?php echo $b['video']; ?>" frameborder="0" allowfullscreen></iframe>
+					</div>
+					<?php endif; ?>
 					<div class="search_tour">
 						<div class="form-block block-after-indent">
 							<h3 class="form-block_title">Tìm kiếm</h3>

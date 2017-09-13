@@ -91,6 +91,12 @@ if(isset($b['background']) && $b['background']){
 					</aside>
 				<?php endforeach; ?>
 				<?php endif; ?>
+				<?php if(isset($b['video']) && $b['video']) : ?>
+					<div class="search_tour">
+						<h3 class="form-block_title">Video giới thiệu</h3>
+						<iframe width="100%" height="auto" src="<?php echo $b['video']; ?>" frameborder="0" allowfullscreen></iframe>
+					</div>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>

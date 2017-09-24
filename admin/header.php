@@ -124,7 +124,7 @@ if($users->isLoggedIn() && !$users->is_admin() && !$users->is_manager()){
                 <li>
                     <a href="tintuc.html">
                         <i class="ion-calendar"></i>
-                        <span>TIN TỨC</span>
+                        <span>TIỆN ÍCH</span>
                     </a>
                 </li>
                 <li class="has-sub">
@@ -146,12 +146,12 @@ if($users->isLoggedIn() && !$users->is_admin() && !$users->is_manager()){
                         <span>BOOKING</span>
                     </a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="tuvanvisa.html">
                         <i class="fa fa-credit-card"></i>
                         <span>TIỆN ÍCH</span>
                     </a>
-                </li>
+                </li>-->
 
                 <li>
                     <a href="banner.html">

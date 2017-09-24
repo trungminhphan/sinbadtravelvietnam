@@ -23,6 +23,10 @@ class TinTuc {
 		return $this->_collection->find()->sort(array('orders' => 1, 'date_post'=>-1));
 	}
 
+	public function get_list_limit($limit){
+		return $this->_collection->find()->sort(array('orders' => 1, 'date_post'=>-1))->limit($limit);
+	}
+
 	public function get_list_condition($condition){
 		return $this->_collection->find($condition)->sort(array('orders' => 1, 'date_post'=>-1));
 	}

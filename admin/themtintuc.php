@@ -3,6 +3,7 @@ require_once('header.php');
 $msg = isset($_GET['msg']) ? $_GET['msg'] : '';
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $act = isset($_GET['act']) ? $_GET['act'] : '';
+$url = isset($_GET['url']) ? $_GET['url'] : '';
 $tintuc = new TinTuc();$danhmuctintuc = new DanhMucTinTuc();
 if($id && $act=='del'){
     $tintuc->id = $id; $t = $tintuc->get_one();
@@ -32,6 +33,7 @@ if(isset($_POST['submit'])){
     $id = isset($_POST['id']) ? $_POST['id'] : '';
     $id_danhmuctintuc = isset($_POST['id_danhmuctintuc']) ? $_POST['id_danhmuctintuc'] : '';
     $act = isset($_POST['act']) ? $_POST['act'] : '';
+    $url = isset($_POST['url']) ? $_POST['url'] : '';
     $tieude = isset($_POST['tieude']) ? $_POST['tieude'] : '';
     $mota = isset($_POST['mota']) ? $_POST['mota'] : '';
     $noidung = isset($_POST['noidung']) ? $_POST['noidung'] : '';
@@ -59,7 +61,10 @@ if(isset($_POST['submit'])){
 
     if($act == 'edit'){
         $tintuc->id = $id;
-        if($tintuc->edit()) transfers_to('tintuc.html?msg=Chỉnh sửa thành công');
+        if($tintuc->edit()){
+            if($url)  transfers_to($url);
+            else  transfers_to('tintuc.html?msg=Chỉnh sửa thành công');
+        }
     } else {
         if($tintuc->insert()) transfers_to('tintuc.html?msg=Thêm thành công');
     }
@@ -105,6 +110,7 @@ if(isset($_POST['submit'])){
                     <div class="col-md-9">
                         <input type="hidden" name="id" id="id" value="<?php echo isset($id) ? $id : '';?>">
                         <input type="hidden" name="act" id="act" value="<?php echo isset($act) ? $act : ''; ?>">
+                        <input type="hidden" name="url" id="url" value="<?php echo isset($url) ? $url : ''; ?>">
                         <input class="form-control" type="text" id="tieude" name="tieude" placeholder="Tiêu đề" data-parsley-required="true" value="<?php echo isset($tieude) ? $tieude : ''; ?>" />
                     </div>
                 </div>

@@ -6,7 +6,7 @@ $session = new SessionManager();
 $users = new Users();
 require_once('admin/inc/functions.inc.php');
 require_once('admin/inc/config.inc.php');
-$danhmuctour = new DanhMucTour();
+$danhmuctour = new DanhMucTour();$danhmuctintuc = new DanhMucTinTuc();
 $danhmuctour_list = $danhmuctour->get_list_condition(array('id_parent' => ''));
 $url = isset($_SERVER['REDIRECT_URL']) ? $_SERVER['REDIRECT_URL'] : 'index.html'; $a = explode("/", $url); $l = end($a);
 $id = isset($_GET['id']) ? $_GET['id'] : '';
@@ -118,13 +118,32 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 						<?php
 						if($danhmuctour_list){
 							foreach($danhmuctour_list as $t){
-								echo '<li class="'.($l=='tours.html' && $id==$t['_id'] ? 'current-menu-ancestor' :'').'">
-									<a href="tours.html?id='.$t['_id'].'">'.$t['ten'].'</a>
-								</li>';
+								echo '<li class="'.($l=='tours.html' && $id==$t['_id'] ? 'current-menu-ancestor' :'').'"><a href="tours.html?id='.$t['_id'].'">'.$t['ten'].'</a>';
+								$child_list = $danhmuctour->get_list_condition(array('id_parent' => new MongoId($t['_id'])));
+								if($child_list && $child_list->count() > 0){
+									echo '<ul class="sub-menu">';
+									foreach($child_list as $child){
+										echo '<li><a href="tours.html?id='.$child['_id'].'">'.$child['ten'].'</a></li>';
+									}
+									echo '</ul>';
+								}
+
+								echo '</li>';
 							}
 						}
 						?>
-						<li class="<?php echo $l == 'tuvanvisa.html' ? 'current-menu-ancestor' : ''; ?>"><a href="tuvanvisa.html">Tiện ích</a></li>
+						<li class="<?php echo $l == 'tuvanvisa.html' ? 'current-menu-ancestor' : ''; ?>"><a href="tienich.html">Tiện ích</a>
+						<?php
+						$danhmuctintuc_list = $danhmuctintuc->get_all_list();
+						if($danhmuctintuc_list && $danhmuctintuc_list->count() > 0){
+							echo '<ul class="sub-menu">';
+							foreach($danhmuctintuc_list as $dmtt){
+								echo '<li><a href="tintuc.html?id='.$dmtt['_id'].'">'.$dmtt['ten'].'</a></li>';
+							}
+							echo '</ul>';
+						}
+						?>
+						</li>
 						<li class="<?php echo $l == 'lienhe.html' ? 'current-menu-ancestor' : ''; ?>"><a href="lienhe.html">Liên hệ</a></li>
 					</ul>
 				</nav>

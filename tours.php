@@ -4,13 +4,19 @@ $danhmuctour->id = $id; $dmt = $danhmuctour->get_one();
 $tours = new Tours();$lichkhoihanh = new LichKhoiHanh();
 $query = array('id_danhmuctour' => $id, 'hienthi' => 1);
 $tour_stick = $tours->get_tour_stick();
-$tours_list = $tours->get_list_condition($query);
 $banner = new Banner(); $b = $banner->get_one();
 if(isset($b['background']) && $b['background']){
 	$background = $target_background . $b['background'][0]['aliasname'];
 } else {
 	$background = '';
 }
+
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$position = ($page-1) * $items_of_page;
+$all_items = $tours->count_all_condition($query);
+$page_list = ceil($all_items/$items_of_page);
+$tours_list = $tours->get_list_to_condition_position($query, $position, $items_of_page);
+//$tours_list = $tours->get_list_condition($query);
 ?>
 <div class="site wrapper-content" <?php echo $background ? 'style="background: url('.$background.');background-size:cover;"' : ''; ?>>
 	<div class="top_site_main" style="background-image:url(images/banner/top-heading.jpg);">
@@ -67,6 +73,25 @@ if(isset($b['background']) && $b['background']){
 						</li>
 					<?php endforeach; ?>
 					</ul>
+					<?php if($page_list > 1): ?>
+					<div class="navigation paging-navigation" role="navigation">
+						<ul class="page-numbers">
+						<?php if($page > 1): ?>
+							<li><a class="next page-numbers" href="tours.html?id=<?php echo $id; ?>&page=<?php echo $page-1; ?>"><i class="fa fa-long-arrow-left"></i></a></li>
+						<?php endif; ?>
+						<?php for($i=1; $i<=$page_list; $i++): ?>
+							<?php if($i == $page): ?>
+								<li><span class="page-numbers current"><?php echo $i; ?></span></li>
+							<?php else: ?>
+							<li><a class="page-numbers" href="tours.html?id=<?php echo $id; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+							<?php endif; ?>
+						<?php endfor; ?>
+						<?php if($page < $page_list): ?>
+							<li><a class="next page-numbers" href="tours.html?id=<?php echo $id; ?>&page=<?php echo $page-1; ?>"><i class="fa fa-long-arrow-right"></i></a></li>
+						<?php endif; ?>
+						</ul>
+					</div>
+					<?php endif; ?>
 				</div>
 				<div class="widget-area align-left col-sm-3">
 					<?php if(isset($b['video']) && $b['video']) : ?>

@@ -2,7 +2,6 @@
 require_once('header.php');
 $tours = new Tours(); $banner = new Banner(); $b = $banner->get_one();
 $danhmucdiemden = new DanhMucDiemDen();$danhmuctour = new DanhMucTour();$lichkhoihanh = new LichKhoiHanh();
-$tours_list = $tours->get_all_list_show();
 $tour_stick = $tours->get_tour_stick();
 $danhmucdiemden_list = $danhmucdiemden->get_all_list();
 $danhmuctour_list = $danhmuctour->get_all_list();
@@ -11,6 +10,13 @@ if(isset($b['background']) && $b['background']){
 } else {
 	$background = '';
 }
+
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$position = ($page-1) * $items_of_page;
+$all_items = $tours->count_all();
+$page_list = ceil($all_items/$items_of_page);
+$tours_list = $tours->get_list_to_position($position, $items_of_page);
+//$tours_list = $tours->get_all_list_show();
 ?>
 <link href="admin/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
 <link href="admin/assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.css" rel="stylesheet" />
@@ -97,6 +103,25 @@ if(isset($b['background']) && $b['background']){
 						</li>
 					<?php endforeach; ?>
 					</ul>
+					<?php if($page_list > 1): ?>
+					<div class="navigation paging-navigation" role="navigation">
+						<ul class="page-numbers">
+						<?php if($page > 1): ?>
+							<li><a class="next page-numbers" href="index.html?page=<?php echo $page-1; ?>"><i class="fa fa-long-arrow-left"></i></a></li>
+						<?php endif; ?>
+						<?php for($i=1; $i<=$page_list; $i++): ?>
+							<?php if($i == $page): ?>
+								<li><span class="page-numbers current"><?php echo $i; ?></span></li>
+							<?php else: ?>
+							<li><a class="page-numbers" href="index.html?page=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+							<?php endif; ?>
+						<?php endfor; ?>
+						<?php if($page < $page_list): ?>
+							<li><a class="next page-numbers" href="index.html?page=<?php echo $page-1; ?>"><i class="fa fa-long-arrow-right"></i></a></li>
+						<?php endif; ?>
+						</ul>
+					</div>
+					<?php endif; ?>
 				</div>
 				<div class="widget-area align-left col-sm-3">
 					<?php if(isset($b['video']) && $b['video']) : ?>
@@ -163,6 +188,38 @@ if(isset($b['background']) && $b['background']){
 						?>
 						</div>
 					<?php endif; ?>
+					</aside>
+					<?php
+					$tintuc = new TinTuc();
+					$tintuc_list = $tintuc->get_list_limit(3);
+					?>
+					<aside class="widget widget_travel_tour">
+						<h2 style="padding-bottom:10px;border-bottom:2px solid #ccc;">Tin tức</h2>
+						<?php if($tintuc_list): ?>
+						<div class="wrapper-special-tours">
+						<?php
+						foreach($tintuc_list as $tt){
+							if($tt['hinhanh'][0]['aliasname']){
+								$file = $target_images . $tt['hinhanh'][0]['aliasname'];
+								$thumb = $target_images . '80x60/' . $tt['hinhanh'][0]['aliasname'];
+								if(!file_exists($thumb)){
+									resize_image($file , null, 80, 60, false , $thumb , false , false ,100);
+								}
+							} else {
+								$thumb = 'images/tour/430x305/tour-2.jpg';
+							}
+							echo '<div class="inner-special-tours">
+									<div class="post_title">
+										<a href="chitiettuvanvisa.html?id='.$tt['_id'].'" rel="bookmark">
+											<img width="80" height="60" src="'.$thumb.'" alt="'.$tt['tieude'].'" title="'.$tt['tieude'].'">
+											'.$tt['tieude'].'
+										</a>
+									</div>
+								</div>';
+							}
+						?>
+						</div>
+						<?php endif; ?>
 					</aside>
 				</div>
 			</div>

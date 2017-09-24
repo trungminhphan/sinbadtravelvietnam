@@ -29,6 +29,22 @@ class Tours {
 		return $this->_collection->find()->sort(array('orders' => 1, 'date_post'=>-1));
 	}
 
+	public function get_list_to_position($position, $limit){
+		return $this->_collection->find(array('hienthi' => 1))->skip($position)->limit($limit)->sort(array('orders'=>1, 'date_post' => -1));
+	}
+
+	public function get_list_to_condition_position($condition, $position, $limit){
+		return $this->_collection->find($condition)->skip($position)->limit($limit)->sort(array('orders'=>1, 'date_post' => -1));
+	}
+
+	public function count_all_condition($condition){
+		return $this->_collection->find($condition)->count();	
+	}
+
+	public function count_all(){
+		return $this->_collection->find(array('hienthi' => 1))->count();	
+	}
+
 	public function get_all_list_show(){
 		$query = array('hienthi' => 1);
 		return $this->_collection->find($query)->sort(array('orders' => 1, 'date_post'=>-1));

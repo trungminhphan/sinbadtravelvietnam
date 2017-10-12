@@ -37,12 +37,16 @@ class Tours {
 		return $this->_collection->find($condition)->skip($position)->limit($limit)->sort(array('orders'=>1, 'date_post' => -1));
 	}
 
+	public function get_list_to_condition_position_stick($condition, $position, $limit){
+		return $this->_collection->find($condition)->skip($position)->limit($limit)->sort(array('orders'=>1, 'date_post' => -1));
+	}
+
 	public function count_all_condition($condition){
-		return $this->_collection->find($condition)->count();	
+		return $this->_collection->find($condition)->count();
 	}
 
 	public function count_all(){
-		return $this->_collection->find(array('hienthi' => 1))->count();	
+		return $this->_collection->find(array('hienthi' => 1))->count();
 	}
 
 	public function get_all_list_show(){
@@ -70,7 +74,12 @@ class Tours {
 
 	public function get_tour_stick(){
 		$query = array('hienthi' => 1, 'stick' => 1);
-		return $this->_collection->find($query)->sort(array('orders' => 1, 'date_post'=>-1))->limit(5);
+		return $this->_collection->find($query)->sort(array('orders' => 1, 'date_post'=>-1));
+	}
+
+	public function get_tour_stick_limit($limit){
+		$query = array('hienthi' => 1, 'stick' => 1);
+		return $this->_collection->find($query)->sort(array('orders' => 1, 'date_post'=>-1))->limit($limit);
 	}
 
 	public function get_diemdenmoi(){

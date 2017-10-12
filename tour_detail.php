@@ -10,10 +10,7 @@ $relates = $tours->get_relates_tour($id_danhmuctour);
 $banner = new Banner(); $b = $banner->get_one();
 if(isset($b['background']) && $b['background']){
 	$background = $target_background . $b['background'][0]['aliasname'];
-} else {
-	$background = '';
-}
-
+} else { $background = ''; }
 ?>
 <script type="text/javascript" src="assets/js/html5.messages.js"></script>
 <div class="site wrapper-content" <?php echo $background ? 'style="background: url('.$background.');background-size:cover;"' : ''; ?>>
@@ -109,26 +106,27 @@ if(isset($b['background']) && $b['background']){
 						<div class="clear"></div>
 						<div class="single-tour-tabs wc-tabs-wrapper">
 							<ul class="tabs wc-tabs" role="tablist">
-								<li class="description_tab active" role="presentation">
-									<a href="#tab-description" role="tab" data-toggle="tab">Chi tiết Tour</a>
-								</li>
-								<li class="itinerary_tab_tab" role="presentation">
+								<li class="itinerary_tab_tab active" role="presentation">
 									<a href="#tab-itinerary_tab" role="tab" data-toggle="tab">Hành trình</a>
+								</li>
+								<li class="description_tab" role="presentation">
+									<a href="#tab-description" role="tab" data-toggle="tab">Chi tiết Tour</a>
 								</li>
 								<li class="itinerary_tab_tab" role="presentation">
 									<a href="#tab-calendar_tab" role="tab" data-toggle="tab">Lịch khởi hành</a>
 								</li>
 							</ul>
 							<div class="tab-content">
-								<div role="tabpanel" class="tab-pane single-tour-tabs-panel single-tour-tabs-panel--description panel entry-content wc-tab active" id="tab-description">
-									<h2>Thông tin chi tiết Tours</h2>
-									<?php echo $t['giave']; ?>
-								</div>
-								<div role="tabpanel" class="tab-pane single-tour-tabs-panel single-tour-tabs-panel--itinerary_tab panel entry-content wc-tab" id="tab-itinerary_tab">
+								<div role="tabpanel" class="tab-pane single-tour-tabs-panel single-tour-tabs-panel--itinerary_tab panel entry-content wc-tab active" id="tab-itinerary_tab">
 									<div class="item_content">
 										<?php echo $t['noidung']; ?>
 									</div>
 								</div>
+								<div role="tabpanel" class="tab-pane single-tour-tabs-panel single-tour-tabs-panel--description panel entry-content wc-tab" id="tab-description">
+									<h2>Thông tin chi tiết Tours</h2>
+									<?php echo $t['giave']; ?>
+								</div>
+
 								<div role="tabpanel" class="tab-pane single-tour-tabs-panel single-tour-tabs-panel--itinerary_tab panel entry-content wc-tab" id="tab-calendar_tab">
 									<div class="item_content">
 										<table>

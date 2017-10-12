@@ -2,7 +2,7 @@
 require_once('header.php');
 $tours = new Tours(); $banner = new Banner(); $b = $banner->get_one();
 $danhmucdiemden = new DanhMucDiemDen();$danhmuctour = new DanhMucTour();$lichkhoihanh = new LichKhoiHanh();
-$tour_stick = $tours->get_tour_stick();
+$tour_stick = $tours->get_tour_stick_limit(3);
 $danhmucdiemden_list = $danhmucdiemden->get_all_list();
 $danhmuctour_list = $danhmuctour->get_all_list();
 if(isset($b['background']) && $b['background']){
@@ -186,6 +186,9 @@ $tours_list = $tours->get_list_to_position($position, $items_of_page);
 								</div>';
 							}
 						?>
+							<div class="text-right">
+								<a href="tour-noi-bat.html" class="btn btn-more"><i class="fa fa-send"></i> Xem tất cả</a>
+							</div>
 						</div>
 					<?php endif; ?>
 					</aside>

@@ -8874,3 +8874,9 @@ input[type=radio]:checked:before {
 		font-size: 1em;
 	}
 }
+
+.btn-more {
+	font-weight: bold;
+	background: #03a1d6;
+	color:#fff;
+}

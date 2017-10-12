@@ -3,7 +3,7 @@ require_once('header.php');
 $danhmuctour->id = $id; $dmt = $danhmuctour->get_one();
 $tours = new Tours();$lichkhoihanh = new LichKhoiHanh();
 $query = array('id_danhmuctour' => $id, 'hienthi' => 1);
-$tour_stick = $tours->get_tour_stick();
+$tour_stick = $tours->get_tour_stick_limit(3);
 $banner = new Banner(); $b = $banner->get_one();
 if(isset($b['background']) && $b['background']){
 	$background = $target_background . $b['background'][0]['aliasname'];
@@ -156,6 +156,9 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
 								</div>';
 							}
 						?>
+							<div class="text-right">
+								<a href="tour-noi-bat.html" class="btn btn-more"><i class="fa fa-send"></i> Xem tất cả</a>
+							</div>
 						</div>
 					<?php endif; ?>
 					</aside>

@@ -32,6 +32,12 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 	<link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 </head>
 <body class="archive travel_tour travel_tour-page">
+	<div id="google_translate_element"></div><script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({pageLanguage: 'vi', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+}
+</script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        
 <div class="wrapper-container">
 	<header id="masthead" class="site-header sticky_header affix-top">
 		<div class="header_top_bar">
@@ -64,7 +70,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 									<div class="closeicon"></div>
 									<h3>Điền thông tin đặt Tour</h3>
 									<form method="POST" class="register" action="post.booking.html">
-										<input type="hidden" name="id_tour" id="id_tour" value="" />
+										<input type="hidden" name="id_tour" id="id_tour"/>
 										<input type="hidden" name="url" id="url" value="<?php echo $_SERVER['REQUEST_URI']; ?>" />
 										<p class="form-row">
 											<label for="reg_email">Họ tên<span class="required">*</span></label>

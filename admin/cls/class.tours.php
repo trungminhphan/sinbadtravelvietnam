@@ -72,6 +72,11 @@ class Tours {
 		return $this->_collection->find($query)->sort(array('orders' => 1, 'date_post'=>-1))->limit(3);
 	}
 
+	public function get_list_limit($limit){
+		$query = array('hienthi' => 1);
+		return $this->_collection->find($query)->sort(array('orders' => 1, 'date_post'=>-1))->limit($limit);
+	}
+
 	public function get_tour_stick(){
 		$query = array('hienthi' => 1, 'stick' => 1);
 		return $this->_collection->find($query)->sort(array('orders' => 1, 'date_post'=>-1));
@@ -100,8 +105,8 @@ class Tours {
 	public function insert(){
 		$query = array(
 			'tieude' => $this->tieude,
-			'giatour' => intval($this->giatour),
-			'giagiamtour' => intval($this->giagiamtour),
+			'giatour' => $this->giatour,
+			'giagiamtour' => $this->giagiamtour,
 			//'ngaykhoihanh' => $this->ngaykhoihanh,
 			//'ngayketthuc' => $this->ngayketthuc,
 			'mota' => $this->mota,
@@ -121,8 +126,8 @@ class Tours {
 	public function edit(){
 		$query = array('$set' => array(
 			'tieude' => $this->tieude,
-			'giatour' => intval($this->giatour),
-			'giagiamtour' => intval($this->giagiamtour),
+			'giatour' => $this->giatour,
+			'giagiamtour' => $this->giagiamtour,
 			//'ngaykhoihanh' => $this->ngaykhoihanh,
 			//'ngayketthuc' => $this->ngayketthuc,
 			'mota' => $this->mota,

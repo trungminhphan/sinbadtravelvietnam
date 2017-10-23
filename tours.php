@@ -19,11 +19,39 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
 //$tours_list = $tours->get_list_condition($query);
 ?>
 <div class="site wrapper-content" <?php echo $background ? 'style="background: url('.$background.');background-size:cover;"' : ''; ?>>
-	<div class="top_site_main" style="background-image:url(images/banner/top-heading.jpg);">
-		<div class="banner-wrapper container article_heading">
-			<h1 class="heading_primary"><?php echo $dmt['ten']; ?></h1>
+	<?php if($b) : ?>
+	<div class="home-content" role="main">
+		<div class="top_site_main"></div>
+		<div id="home-page-slider-image" class="carousel slide" data-ride="carousel">
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner" role="listbox">
+			<?php foreach($b['banner'] as $k => $v){
+				$file = $target_banner .  $v['aliasname'];
+				$thumb = $target_banner . 'thumb/' .  $v['aliasname'];
+				if(!file_exists($thumb)){
+					resize_image($file , null, 1920, 500, false , $thumb , false , false ,100 );
+				}
+				echo '<div class="item '.($k==0 ? 'active' :'').'">
+					<img src="'.$thumb.'" alt="'.$v['mota'].'">
+					<div class="carousel-caption content-slider">
+						<div class="container">
+						'.($v['mota'] ? '<h2>'.$v['mota'].'</h2>' : '').'
+						'. ($v['link'] ? '<p><a href="'.$v['link'].'" class="btn btn-slider"> Xem chi tiết</a></p>' : '').'
+						</div>
+					</div>
+				</div>';
+				} ?>
+			</div>
+			<!-- Controls -->
+			<a class="carousel-control-left" href="#home-page-slider-image" data-slide="prev">
+				<i class="lnr lnr-chevron-left"></i>
+			</a>
+			<a class="carousel-control-right" href="#home-page-slider-image" data-slide="next">
+				<i class="lnr lnr-chevron-right"></i>
+			</a>
 		</div>
 	</div>
+	<?php endif; ?>
 	<?php
 	$ngaykhoihanh = ''; $ngayketthuc = '';
 	if($tours_list): ?>
@@ -58,7 +86,7 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
 									<div class="post_title"><h4>
 										<a href="tour_detail.html?id=<?php echo $tour['_id'];?>"><?php echo $tour['tieude']; ?></a>
 									</h4></div>
-									<span class="price"><?php echo format_number($tour['giatour']); ?> VNĐ</span>
+									<span class="price"><?php echo $tour['giatour']; ?></span>
 								</div>
 								<div class="read_more">
 									<div class="item_rating">
@@ -100,7 +128,7 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
 						<iframe width="100%" height="auto" src="<?php echo $b['video']; ?>" frameborder="0" allowfullscreen></iframe>
 					</div>
 					<?php endif; ?>
-					<div class="search_tour">
+					<!--<div class="search_tour">
 						<div class="form-block block-after-indent">
 							<h3 class="form-block_title">Tìm kiếm</h3>
 							<div class="form-block__description">Tìm Tour bạn cần tìm kiếm!</div>
@@ -109,19 +137,19 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
 								<select name="id_danhmuctour" id="id_danhmuctour">
 									<option value="">Chọn loại Tour</option>
 									<?php
-				                        if($danhmuctour_list){
+				                        /*if($danhmuctour_list){
 				                            $list_tree = iterator_to_array($danhmuctour_list);
 				                            showCategories($list_tree);
-				                        }
+				                        }*/
 				                    ?>
 								</select>
 								<select name="id_danhmucdiemden" id="danhmucdiemden">
 									<option value="">Điểm đến</option>
 									 <?php
-				                        if($danhmucdiemden_list){
+				                        /*if($danhmucdiemden_list){
 				                            $list_tree = iterator_to_array($danhmucdiemden_list);
 				                            showCategories($list_tree);
-				                        }
+				                        }*/
 				                    ?>
 								</select>
 
@@ -129,9 +157,14 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
 								<button type="submit"><i class="fa fa-search"></i> Tìm</button>
 							</form>
 						</div>
-					</div>
+					</div>-->
 					<aside class="widget widget_travel_tour">
-					<h2 style="padding-bottom:10px;border-bottom:2px solid #ccc;">Tour nổi bật</h2>
+					<h2 style="padding-bottom:10px;border-bottom:2px solid #ccc;">
+						Tour nổi bật
+						<span style="float: right;">
+							<a href="tour-noi-bat.html" class="btn btn-more"><i class="fa fa-send"></i> Xem tất cả</a>
+						</span>
+					</h2>
 						<?php if($tour_stick): ?>
 						<div class="wrapper-special-tours">
 						<?php
@@ -150,7 +183,7 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
 										<a href="tour_detail.html?id='.$dd['_id'].'" rel="bookmark">
 											<img width="80" height="60" src="'.$thumb.'" alt="'.$dd['tieude'].'" title="'.$dd['tieude'].'">
 											'.$dd['tieude'].' <br />
-											Giá: <b>'.format_number($dd['giatour']).' VNĐ</b>
+											Giá: <b>'.$dd['giatour'].'</b>
 										</a>
 									</div>
 								</div>';
@@ -161,6 +194,43 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
 							</div>
 						</div>
 					<?php endif; ?>
+					</aside>
+					<?php
+					$tintuc = new TinTuc();
+					$tintuc_list = $tintuc->get_list_limit(3);
+					?>
+					<aside class="widget widget_travel_tour">
+						<h2 style="padding-bottom:10px;border-bottom:2px solid #ccc;">
+							Tin tức
+							<span style="float: right;">
+								<a href="tintuc.html?id=59b241ae51e3a540278b4568" class="btn btn-more"><i class="fa fa-send"></i> Xem tất cả</a>
+							</span>
+						</h2>
+						<?php if($tintuc_list): ?>
+						<div class="wrapper-special-tours">
+						<?php
+						foreach($tintuc_list as $tt){
+							if(isset($tt['hinhanh'][0]['aliasname']) && $tt['hinhanh'][0]['aliasname']){
+								$file = $target_images . $tt['hinhanh'][0]['aliasname'];
+								$thumb = $target_images . '80x60/' . $tt['hinhanh'][0]['aliasname'];
+								if(!file_exists($thumb)){
+									resize_image($file , null, 80, 60, false , $thumb , false , false ,100);
+								}
+							} else {
+								$thumb = 'images/tour/430x305/tour-2.jpg';
+							}
+							echo '<div class="inner-special-tours">
+									<div class="post_title">
+										<a href="chitiettuvanvisa.html?id='.$tt['_id'].'" rel="bookmark">
+											<img width="80" height="60" src="'.$thumb.'" alt="'.$tt['tieude'].'" title="'.$tt['tieude'].'">
+											'.$tt['tieude'].'
+										</a>
+									</div>
+								</div>';
+							}
+						?>
+						</div>
+						<?php endif; ?>
 					</aside>
 				</div>
 			</div>

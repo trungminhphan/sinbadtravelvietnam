@@ -8,7 +8,11 @@ if(isset($b['background']) && $b['background']){
 } else {
     $background = '';
 }
+<<<<<<< HEAD
+$query = array('hienthi' => 1, 'stick' => 1);
+=======
 $query = array('id_danhmuctour' => $id, 'hienthi' => 1, 'stick' => 1);
+>>>>>>> origin/master
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $position = ($page-1) * $items_of_page;
 $all_items = $tours->count_all_condition($query);
@@ -31,7 +35,11 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
                     <ul class="tours products wrapper-tours-slider">
                     <?php
                         foreach($tours_list as $tour):
+<<<<<<< HEAD
+                            if(isset($tour['hinhanh'][0]['aliasname']) && $tour['hinhanh'][0]['aliasname']){
+=======
                             if($tour['hinhanh'][0]['aliasname']){
+>>>>>>> origin/master
                                 $file = $target_images . $tour['hinhanh'][0]['aliasname'];
                                 $thumb = $target_images . '430x305/' . $tour['hinhanh'][0]['aliasname'];
                                 if(!file_exists($thumb)){
@@ -55,7 +63,11 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
                                     <div class="post_title"><h4>
                                         <a href="tour_detail.html?id=<?php echo $tour['_id'];?>"><?php echo $tour['tieude']; ?></a>
                                     </h4></div>
+<<<<<<< HEAD
+                                    <span class="price"><?php echo $tour['giatour']; ?></span>
+=======
                                     <span class="price"><?php echo format_number($tour['giatour']); ?> VNĐ</span>
+>>>>>>> origin/master
                                 </div>
                                 <div class="read_more">
                                     <div class="item_rating">
@@ -84,7 +96,11 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
                             <?php endif; ?>
                         <?php endfor; ?>
                         <?php if($page < $page_list): ?>
+<<<<<<< HEAD
+                            <li><a class="next page-numbers" href="tours.html?id=<?php echo $id; ?>&page=<?php echo $page+1; ?>"><i class="fa fa-long-arrow-right"></i></a></li>
+=======
                             <li><a class="next page-numbers" href="tours.html?id=<?php echo $id; ?>&page=<?php echo $page-1; ?>"><i class="fa fa-long-arrow-right"></i></a></li>
+>>>>>>> origin/master
                         <?php endif; ?>
                         </ul>
                     </div>
@@ -97,7 +113,11 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
                         <iframe width="100%" height="auto" src="<?php echo $b['video']; ?>" frameborder="0" allowfullscreen></iframe>
                     </div>
                     <?php endif; ?>
+<<<<<<< HEAD
+                    <!--<div class="search_tour">
+=======
                     <div class="search_tour">
+>>>>>>> origin/master
                         <div class="form-block block-after-indent">
                             <h3 class="form-block_title">Tìm kiếm</h3>
                             <div class="form-block__description">Tìm Tour bạn cần tìm kiếm!</div>
@@ -106,19 +126,33 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
                                 <select name="id_danhmuctour" id="id_danhmuctour">
                                     <option value="">Chọn loại Tour</option>
                                     <?php
+<<<<<<< HEAD
+                                        /*if($danhmuctour_list){
+                                            $list_tree = iterator_to_array($danhmuctour_list);
+                                            showCategories($list_tree);
+                                        }*/
+=======
                                         if($danhmuctour_list){
                                             $list_tree = iterator_to_array($danhmuctour_list);
                                             showCategories($list_tree);
                                         }
+>>>>>>> origin/master
                                     ?>
                                 </select>
                                 <select name="id_danhmucdiemden" id="danhmucdiemden">
                                     <option value="">Điểm đến</option>
                                      <?php
+<<<<<<< HEAD
+                                        /*if($danhmucdiemden_list){
+                                            $list_tree = iterator_to_array($danhmucdiemden_list);
+                                            showCategories($list_tree);
+                                        }*/
+=======
                                         if($danhmucdiemden_list){
                                             $list_tree = iterator_to_array($danhmucdiemden_list);
                                             showCategories($list_tree);
                                         }
+>>>>>>> origin/master
                                     ?>
                                 </select>
 
@@ -126,6 +160,20 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
                                 <button type="submit"><i class="fa fa-search"></i> Tìm</button>
                             </form>
                         </div>
+<<<<<<< HEAD
+                    </div>-->
+                    <?php
+                    $tintuc = new TinTuc();
+                    $tintuc_list = $tintuc->get_list_limit(6);
+                    ?>
+                    <aside class="widget widget_travel_tour">
+                        <h2 style="padding-bottom:10px;border-bottom:2px solid #ccc;">
+                            Tin tức
+                            <span style="float: right;">
+                                <a href="tintuc.html?id=59b241ae51e3a540278b4568" class="btn btn-more"><i class="fa fa-send"></i> Xem tất cả</a>
+                            </span>
+                        </h2>
+=======
                     </div>
                     <?php
                     $tintuc = new TinTuc();
@@ -133,11 +181,16 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
                     ?>
                     <aside class="widget widget_travel_tour">
                         <h2 style="padding-bottom:10px;border-bottom:2px solid #ccc;">Tin tức</h2>
+>>>>>>> origin/master
                         <?php if($tintuc_list): ?>
                         <div class="wrapper-special-tours">
                         <?php
                         foreach($tintuc_list as $tt){
+<<<<<<< HEAD
+                            if(isset($tt['hinhanh'][0]['aliasname']) && $tt['hinhanh'][0]['aliasname']){
+=======
                             if($tt['hinhanh'][0]['aliasname']){
+>>>>>>> origin/master
                                 $file = $target_images . $tt['hinhanh'][0]['aliasname'];
                                 $thumb = $target_images . '80x60/' . $tt['hinhanh'][0]['aliasname'];
                                 if(!file_exists($thumb)){

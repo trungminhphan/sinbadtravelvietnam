@@ -37,13 +37,17 @@ $booking_list = $booking->get_all_list();
                     if($booking_list){
                         $i = 1;
                         foreach ($booking_list as $dm) {
-                        	$tour->id = $dm['id_tour']; $t = $tour->get_one();
+                            if(isset($dm['id_tour']) && $dm['id_tour']){
+                        	   $tour->id = $dm['id_tour']; $t = $tour->get_one();
+                               $tentour = $t['tieude'];
+                               $id_tour = $t['_id'];
+                            } else { $tentour = ''; $id_tour='';}
                             echo '<tr>
                                 <td>'.$i.'</td>
                                 <td>'.$dm['hoten'].'</td>
                                 <td>'.$dm['dienthoai'].'</td>
                                 <td>'.$dm['email'].'</td>
-                                <td><a href="http://sinbadtravelvietnam.com/tour_detail.html?id='.$t['_id'].'">'.$t['tieude'].'</a></td>
+                                <td><a href="../tour_detail.html?id='.$id_tour.'" target="_blank">'.$tentour.'</a></td>
                                 <td>'.$dm['sove'].'</td>
                                 <td class="text-center"><a href="get.booking.html?id='.$dm['_id'].'&act=del" onclick="return confirm(\'Chắc chắn muốn xoá?\');"><i class="fa fa-trash"></i></a></td>
                             </tr>';$i++;

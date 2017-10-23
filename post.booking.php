@@ -17,9 +17,10 @@ $booking->ghichu = $ghichu;
 $booking->id_tour = $id_tour;
 
 if($booking->insert()){
-  if($url) transfers_to($url);
-	else transfers_to('tour_detail.php?id='.$id_tour.'&book=ok');
+  //if($url) transfers_to($url);else 
+	transfers_to('tour_detail.html?id='.$id_tour.'&book=ok');
 } else {
-	echo 'Không thể đặt Tour. <a href="tour_detail.html?id='.$id_tour.'">Trở về</a>';
+	echo
+ 'Không thể đặt Tour. <a href="tour_detail.html?id='.$id_tour.'">Trở về</a>';
 }
 ?>

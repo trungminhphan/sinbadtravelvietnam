@@ -8877,6 +8877,15 @@ input[type=radio]:checked:before {
 
 .btn-more {
 	font-weight: bold;
+<<<<<<< HEAD
+	/*background: #03a1d6;
+	color:#fff;*/
+}
+.btn-more:hover{
+	color: #ff0000;
+}
+=======
 	background: #03a1d6;
 	color:#fff;
 }
+>>>>>>> origin/master

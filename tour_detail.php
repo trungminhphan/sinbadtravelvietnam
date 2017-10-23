@@ -4,7 +4,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : '';
 $book = isset($_GET['book']) ? $_GET['book'] : '';
 $tours = new Tours();$tours->id = $id; $t = $tours->get_one();
 $danhmuctour = new DanhMucTour();$lichkhoihanh = new LichKhoiHanh();
-$tour_stick = $tours->get_tour_stick();
+$tour_stick = $tours->get_tour_stick_limit(5);
 $id_danhmuctour = $t['id_danhmuctour'];
 $relates = $tours->get_relates_tour($id_danhmuctour);
 $banner = new Banner(); $b = $banner->get_one();
@@ -14,11 +14,39 @@ if(isset($b['background']) && $b['background']){
 ?>
 <script type="text/javascript" src="assets/js/html5.messages.js"></script>
 <div class="site wrapper-content" <?php echo $background ? 'style="background: url('.$background.');background-size:cover;"' : ''; ?>>
-	<div class="top_site_main" style="background-image:url(images/banner/top-heading.jpg);">
-		<div class="banner-wrapper container article_heading">
-			<h2 class="heading_primary">Thông tin chi tiết Tour</h2>
+	<?php if($b) : ?>
+	<div class="home-content" role="main">
+		<div class="top_site_main"></div>
+		<div id="home-page-slider-image" class="carousel slide" data-ride="carousel">
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner" role="listbox">
+			<?php foreach($b['banner'] as $k => $v){
+				$file = $target_banner .  $v['aliasname'];
+				$thumb = $target_banner . 'thumb/' .  $v['aliasname'];
+				if(!file_exists($thumb)){
+					resize_image($file , null, 1920, 500, false , $thumb , false , false ,100 );
+				}
+				echo '<div class="item '.($k==0 ? 'active' :'').'">
+					<img src="'.$thumb.'" alt="'.$v['mota'].'">
+					<div class="carousel-caption content-slider">
+						<div class="container">
+						'.($v['mota'] ? '<h2>'.$v['mota'].'</h2>' : '').'
+						'. ($v['link'] ? '<p><a href="'.$v['link'].'" class="btn btn-slider"> Xem chi tiết</a></p>' : '').'
+						</div>
+					</div>
+				</div>';
+				} ?>
+			</div>
+			<!-- Controls -->
+			<a class="carousel-control-left" href="#home-page-slider-image" data-slide="prev">
+				<i class="lnr lnr-chevron-left"></i>
+			</a>
+			<a class="carousel-control-right" href="#home-page-slider-image" data-slide="next">
+				<i class="lnr lnr-chevron-right"></i>
+			</a>
 		</div>
 	</div>
+	<?php endif; ?>
 	<section class="content-area single-woo-tour">
 		<div class="container">
 			<div class="tb_single_tour product">
@@ -45,10 +73,10 @@ if(isset($b['background']) && $b['background']){
 							<?php endif; ?>
 							<?php echo $t['mota']; ?>
 							<p style="margin-top:20px;">
-								<?php if(isset($t['giagiamtour']) && $t['giagiamtour'] > 0) : ?>
-									<b>Giá Tour:</b> <span style="color:#ff0000;font-size:18px;font-weight:bold;"><?php echo format_number($t['giagiamtour']); ?> VNĐ</span>&nbsp;&nbsp;&nbsp;<span><strike><?php echo format_number($t['giatour']); ?> VNĐ</strike></span>
+								<?php if(isset($t['giagiamtour']) && $t['giagiamtour']) : ?>
+									<b>Giá Tour:</b> <span style="color:#ff0000;font-size:18px;font-weight:bold;"><?php echo $t['giagiamtour']; ?></span>&nbsp;&nbsp;&nbsp;<span><strike><?php echo $t['giatour']; ?></strike></span>
 								<?php else: ?>
-									<b>Giá Tour:</b> <span style="color:#ff0000;font-size:18px;font-weight:bold;"><?php echo format_number($t['giatour']); ?> VNĐ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<b>Giá Tour:</b> <span style="color:#ff0000;font-size:18px;font-weight:bold;"><?php echo $t['giatour']; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<?php endif; ?>
 								<?php
 								$ngaykhoihanh = ''; $ngayketthuc='';
@@ -61,15 +89,16 @@ if(isset($b['background']) && $b['background']){
 											break;
 										}
 									}
-								} else {
-									$ngaykhoihanh = date("d/m/Y");
-									$ngayketthuc = date("d/m/Y");
-								}
+								} 
 								?>
 							</p>
 							<p style="margin-top:20px;">
+								<?php if($ngaykhoihanh == '' || $ $ngayketthuc ==''):?>
+									<b>Ngày khởi hành:</b> <span style="color:#652f8f;font-size:18px;font-weight: bold;">Đang cập nhật</span>
+								<?php else: ?>
 								<b>Ngày khởi hành:</b> <span style="color:#652f8f;font-size:18px;font-weight: bold;"><?php echo $ngaykhoihanh; ?></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 								<b>Ngày kết thúc:</b> <span style="color:#89c53f;font-size:18px;font-weight: bold;"><?php echo $ngayketthuc; ?></span>
+								<?php endif;?>
 							<p style="margin-top:20px;">
 								<b>Loại Tour:</b> <?php echo $danhmuctour->get_tours($t['id_danhmuctour']); ?>
 							</p>
@@ -153,9 +182,7 @@ if(isset($b['background']) && $b['background']){
 											} else {
 												echo '
 													<tr>
-														<td align="center">1</td>
-														<td align="center">'.date("d/m/Y").'</td>
-														<td align="center">'.date("d/m/Y").'</td>
+														<td align="center" colspan="3"><b>Đang cập nhật</b></td>
 													</tr>
 												';
 											}
@@ -206,7 +233,7 @@ if(isset($b['background']) && $b['background']){
 										<div class="wrapper-special-tours" style="margin-bottom:50px;">
 										<?php
 										foreach($relates as $r){
-											if($r['hinhanh'][0]['aliasname']){
+											if(isset($r['hinhanh'][0]['aliasname']) && $r['hinhanh'][0]['aliasname']){
 												$file = $target_images . $r['hinhanh'][0]['aliasname'];
 												$thumb = $target_images . '80x60/' . $r['hinhanh'][0]['aliasname'];
 												if(!file_exists($thumb)){
@@ -220,7 +247,7 @@ if(isset($b['background']) && $b['background']){
 														<a href="tour_detail.html?id='.$r['_id'].'" rel="bookmark">
 															<img width="80" height="60" src="'.$thumb.'" alt="'.$r['tieude'].'" title="'.$r['tieude'].'">
 															'.$r['tieude'].' <br />
-															Giá: <b>'.format_number($r['giatour']).' VNĐ</b>
+															Giá: <b>'.$r['giatour'].'</b>
 														</a>
 													</div>
 												</div>';
@@ -228,8 +255,11 @@ if(isset($b['background']) && $b['background']){
 										?>
 										</div>
 									<?php endif; ?>
-
-										<h2>Tour nổi bật</h2>
+										<h2>Tour nổi bật
+											<span style="float: right;">
+												<a href="tour-noi-bat.html" class="btn btn-more"><i class="fa fa-send"></i> Xem tất cả</a>
+											</span>
+										</h2>
 										<?php if($tour_stick): ?>
 										<div class="wrapper-special-tours">
 										<?php
@@ -248,7 +278,7 @@ if(isset($b['background']) && $b['background']){
 														<a href="tour_detail.html?id='.$dd['_id'].'" rel="bookmark">
 															<img width="80" height="60" src="'.$thumb.'" alt="'.$dd['tieude'].'" title="'.$dd['tieude'].'">
 															'.$dd['tieude'].' <br />
-															Giá: <b>'.format_number($dd['giatour']).' VNĐ</b>
+															Giá: <b>'.$dd['giatour'].' VNĐ</b>
 														</a>
 													</div>
 												</div>';

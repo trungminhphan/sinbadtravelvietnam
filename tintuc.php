@@ -3,21 +3,53 @@ require_once('header.php');
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $tuvanvisa = new TinTuc();$danhmuctintuc = new DanhMucTinTuc();
 //$tuvanvisa_list = $tuvanvis->get_all_list();
+$tours = new Tours();$tour_stick = $tours->get_tour_stick_limit(5);
+$tuvanvisa = new TinTuc(); $banner = new Banner(); $b = $banner->get_one();
+
 $query = array('id_danhmuctintuc' => $id);
 $tuvanvisa_list = $tuvanvisa->get_list_condition($query);
 $danhmuctintuc->id = $id; $dmtt = $danhmuctintuc->get_one();
+$tour_list = $tours->get_list_limit(5);
 ?>
 <div class="site wrapper-content">
-	<div class="top_site_main" style="background-image:url(images/banner/top-heading.jpg);">
-		<div class="banner-wrapper container article_heading">
-			<h1 class="heading_primary"><?php echo $dmtt['ten']; ?></h1>
+	<?php if($b) : ?>
+	<div class="home-content" role="main">
+		<div class="top_site_main"></div>
+		<div id="home-page-slider-image" class="carousel slide" data-ride="carousel">
+			<!-- Wrapper for slides -->
+			<div class="carousel-inner" role="listbox">
+			<?php foreach($b['banner'] as $k => $v){
+				$file = $target_banner .  $v['aliasname'];
+				$thumb = $target_banner . 'thumb/' .  $v['aliasname'];
+				if(!file_exists($thumb)){
+					resize_image($file , null, 1920, 500, false , $thumb , false , false ,100 );
+				}
+				echo '<div class="item '.($k==0 ? 'active' :'').'">
+					<img src="'.$thumb.'" alt="'.$v['mota'].'">
+					<div class="carousel-caption content-slider">
+						<div class="container">
+						'.($v['mota'] ? '<h2>'.$v['mota'].'</h2>' : '').'
+						'. ($v['link'] ? '<p><a href="'.$v['link'].'" class="btn btn-slider"> Xem chi tiết</a></p>' : '').'
+						</div>
+					</div>
+				</div>';
+				} ?>
+			</div>
+			<!-- Controls -->
+			<a class="carousel-control-left" href="#home-page-slider-image" data-slide="prev">
+				<i class="lnr lnr-chevron-left"></i>
+			</a>
+			<a class="carousel-control-right" href="#home-page-slider-image" data-slide="next">
+				<i class="lnr lnr-chevron-right"></i>
+			</a>
 		</div>
 	</div>
+	<?php endif; ?>
 	<?php if($tuvanvisa_list): ?>
 	<section class="content-area">
 		<div class="container">
 			<div class="row">
-				<div class="site-main col-md-12 col-sm-12 align-left">
+				<div class="site-main col-md-9 col-sm-12 align-left">
 					<div class="wrapper-blog-content">
 					<?php
 					foreach($tuvanvisa_list as $tv){
@@ -56,6 +88,82 @@ $danhmuctintuc->id = $id; $dmtt = $danhmuctintuc->get_one();
 					}
 					?>
 					</div>
+				</div>
+				<div class="widget-area align-left col-md-3 col-sm-12">
+					<aside class="widget widget_travel_tour" style="margin-top: -20px;">
+					<h2 style="padding-bottom:10px;border-bottom:2px solid #ccc;">
+						Tour nổi bật
+						<span style="float: right;">
+							<a href="tour-noi-bat.html" class="btn btn-more"><i class="fa fa-send"></i> Xem tất cả</a>
+						</span>
+					</h2>
+						<?php if($tour_stick): ?>
+						<div class="wrapper-special-tours">
+						<?php
+						foreach($tour_stick as $dd){
+							if(isset($dd['hinhanh'][0]['aliasname']) && $dd['hinhanh'][0]['aliasname']){
+								$file = $target_images . $dd['hinhanh'][0]['aliasname'];
+								$thumb = $target_images . '80x60/' . $dd['hinhanh'][0]['aliasname'];
+								if(!file_exists($thumb)){
+									resize_image($file , null, 80, 60, false , $thumb , false , false ,100);
+								}
+							} else {
+								$thumb = 'images/tour/430x305/tour-2.jpg';
+							}
+							echo '<div class="inner-special-tours">
+									<div class="post_title">
+										<a href="tour_detail.html?id='.$dd['_id'].'" rel="bookmark">
+											<img width="80" height="60" src="'.$thumb.'" alt="'.$dd['tieude'].'" title="'.$dd['tieude'].'">
+											'.$dd['tieude'].' <br />
+											Giá: <b>'.$dd['giatour'].'</b>
+										</a>
+									</div>
+								</div>';
+							}
+						?>
+						</div>
+					<?php endif; ?>
+					</aside>
+					<?php if(isset($b['video']) && $b['video']) : ?>
+					<div class="search_tour">
+						<h3 class="form-block_title">Video giới thiệu</h3>
+						<iframe width="100%" height="auto" src="<?php echo $b['video']; ?>" frameborder="0" allowfullscreen></iframe>
+					</div>
+					<?php endif; ?>
+					<aside class="widget widget_travel_tour">
+					<h2 style="padding-bottom:10px;border-bottom:2px solid #ccc;">
+						Tour mới nhất
+						<span style="float: right;">
+							<a href="tour-noi-bat.html" class="btn btn-more"><i class="fa fa-send"></i> Xem tất cả</a>
+						</span>
+					</h2>
+						<?php if($tour_list): ?>
+						<div class="wrapper-special-tours">
+						<?php
+						foreach($tour_list as $dd){
+							if(isset($dd['hinhanh'][0]['aliasname']) && $dd['hinhanh'][0]['aliasname']){
+								$file = $target_images . $dd['hinhanh'][0]['aliasname'];
+								$thumb = $target_images . '80x60/' . $dd['hinhanh'][0]['aliasname'];
+								if(!file_exists($thumb)){
+									resize_image($file , null, 80, 60, false , $thumb , false , false ,100);
+								}
+							} else {
+								$thumb = 'images/tour/430x305/tour-2.jpg';
+							}
+							echo '<div class="inner-special-tours">
+									<div class="post_title">
+										<a href="tour_detail.html?id='.$dd['_id'].'" rel="bookmark">
+											<img width="80" height="60" src="'.$thumb.'" alt="'.$dd['tieude'].'" title="'.$dd['tieude'].'">
+											'.$dd['tieude'].' <br />
+											Giá: <b>'.$dd['giatour'].'</b>
+										</a>
+									</div>
+								</div>';
+							}
+						?>
+						</div>
+					<?php endif; ?>
+					</aside>
 				</div>
 			</div>
 		</div>

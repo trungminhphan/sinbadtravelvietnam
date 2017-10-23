@@ -37,7 +37,6 @@ function googleTranslateElementInit() {
   new google.translate.TranslateElement({pageLanguage: 'vi', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
 }
 </script><script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-        
 <div class="wrapper-container">
 	<header id="masthead" class="site-header sticky_header affix-top">
 		<div class="header_top_bar">
@@ -129,7 +128,16 @@ function googleTranslateElementInit() {
 								if($child_list && $child_list->count() > 0){
 									echo '<ul class="sub-menu">';
 									foreach($child_list as $child){
-										echo '<li><a href="tours.html?id='.$child['_id'].'">'.$child['ten'].'</a></li>';
+										$child_list_1 = $danhmuctour->get_list_condition(array('id_parent' => new MongoId($child['_id'])));
+										echo '<li><a href="tours.html?id='.$child['_id'].'">'.$child['ten'].'</a>';
+										if($child_list_1){
+											echo '<ul class="sub-menu">';
+											foreach($child_list_1 as $child1){
+												echo '<li><a href="tours.html?id='.$child1['_id'].'">'.$child1['ten'].'</a></li>';
+											}
+											echo '</ul>';
+										}
+										echo '</li>';
 									}
 									echo '</ul>';
 								}

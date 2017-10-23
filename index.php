@@ -190,9 +190,6 @@ $tours_list = $tours->get_list_to_position($position, $items_of_page);
 								</div>';
 							}
 						?>
-							<div class="text-right">
-								<a href="tour-noi-bat.html" class="btn btn-more"><i class="fa fa-send"></i> Xem tất cả</a>
-							</div>
 						</div>
 					<?php endif; ?>
 					</aside>

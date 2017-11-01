@@ -1,5 +1,5 @@
-<?php 
-require_once('header.php'); 
+<?php
+require_once('header.php');
 $msg = isset($_GET['msg']) ? $_GET['msg'] : '';
 $id = isset($_GET['id']) ? $_GET['id'] : '';
 $act = isset($_GET['act']) ? $_GET['act'] : '';
@@ -30,6 +30,7 @@ if(isset($_POST['submit'])){
     $tieude = isset($_POST['tieude']) ? $_POST['tieude'] : '';
     $giatour = isset($_POST['giatour']) ? $_POST['giatour'] : '';
     $giagiamtour = isset($_POST['giagiamtour']) ? $_POST['giagiamtour'] : '';
+    $hot = isset($_POST['hot']) ? $_POST['hot'] : 0;
     /*$ngaykhoihanh = isset($_POST['ngaykhoihanh']) ? $_POST['ngaykhoihanh'] : '';
     $ngayketthuc = isset($_POST['ngayketthuc']) ? $_POST['ngayketthuc'] : '';
     $arr_ngaykhoihanh = array();$arr_ngayketthuc = array();
@@ -75,12 +76,13 @@ if(isset($_POST['submit'])){
     $tours->stick = $stick;
     $tours->video = $video;
     $tours->orders = $orders;
+    $tours->hot = $hot;
     if($act == 'edit'){
         $tours->id = $id;
         if($tours->edit()){
             if($url) transfers_to($url);
             else transfers_to('tours.html?msg=Chỉnh sửa thành công');
-        } 
+        }
     } else {
         if($tours->insert()){
             if($url) transfers_to($url);
@@ -103,8 +105,9 @@ if($id && $act == 'edit'){
     $giave = isset($t['giave']) ? $t['giave'] : '';
     $hinhanh = $t['hinhanh'];
     $hienthi = $t['hienthi'];
-    $stick = isset($t['stick']) ? $t['stick'] : 0; 
+    $stick = isset($t['stick']) ? $t['stick'] : 0;
     $orders = isset($t['orders']) ? $t['orders'] : 0;
+    $hot = isset($t['hot']) ? $t['hot'] : 0;
 }
 ?>
 <link href="assets/plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
@@ -192,16 +195,20 @@ if($id && $act == 'edit'){
                 </div>
                 <div class="form-group">
                     <label class="col-md-2 control-label">Hiển thị</label>
-                    <div class="col-md-2" id="hienthi_html">
-                        <input type="checkbox" name="hienthi" id="hienthi" value="1" data-render="switchery" data-theme="default" <?php echo ($id && $hienthi == 0) ? '' : 'checked';?> /> 
+                    <div class="col-md-1" id="hienthi_html">
+                        <input type="checkbox" name="hienthi" id="hienthi" value="1" data-render="switchery" data-theme="default" <?php echo ($id && $hienthi == 0) ? '' : 'checked';?> />
                     </div>
                     <label class="col-md-2 control-label">Stick</label>
-                    <div class="col-md-2" id="stick_html">
-                        <input type="checkbox" name="stick" id="stick" value="1" data-render="switchery" data-theme="default" <?php echo ($id && $stick == 0) ? '' : 'checked';?> /> 
+                    <div class="col-md-1" id="stick_html">
+                        <input type="checkbox" name="stick" id="stick" value="1" data-render="switchery" data-theme="default" <?php echo ($id && $stick == 0) ? '' : 'checked';?> />
+                    </div>
+                     <label class="col-md-2 control-label">Hot</label>
+                    <div class="col-md-1" id="hot_html">
+                        <input type="checkbox" name="hot" id="hot" value="1" data-render="switchery" data-theme="default" <?php echo ($id && $hot == 0) ? '' : 'checked';?> />
                     </div>
                     <label class="col-md-2 control-label">Sắp xếp</label>
-                    <div class="col-md-2" id="hienthi_html">
-                        <input type="number" name="orders" id="orders" value="<?php echo isset($orders) ? $orders : 0; ?>" class="form-control"/> 
+                    <div class="col-md-1" id="hienthi_html">
+                        <input type="number" name="orders" id="orders" value="<?php echo isset($orders) ? $orders : 0; ?>" class="form-control"/>
                     </div>
                 </div>
                 <div class="form-group">

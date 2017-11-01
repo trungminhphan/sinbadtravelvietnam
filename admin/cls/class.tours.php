@@ -16,6 +16,7 @@ class Tours {
 	public $hienthi = 0;
 	public $stick = 0;
 	public $orders = 0;
+	public $hot = 0;
 	public $id_danhmuctour = '';
 	public $id_danhmucdiemden = '';
 	public $date_post = '';
@@ -116,6 +117,7 @@ class Tours {
 			'hienthi' => intval($this->hienthi),
 			'stick' => intval($this->stick),
 			'orders' => intval($this->orders),
+			'hot' => intval($this->hot),
 			'id_danhmuctour' => $this->id_danhmuctour,
 			'id_danhmucdiemden' => $this->id_danhmucdiemden,
 			'date_post' => new MongoDate()
@@ -137,6 +139,7 @@ class Tours {
 			'hienthi' => intval($this->hienthi),
 			'stick' => intval($this->stick),
 			'orders' => intval($this->orders),
+			'hot' => intval($this->hot),
 			'id_danhmuctour' => $this->id_danhmuctour,
 			'id_danhmucdiemden' => $this->id_danhmucdiemden,
 			'date_post' => new MongoDate()

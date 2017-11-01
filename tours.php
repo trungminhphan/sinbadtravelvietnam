@@ -19,15 +19,15 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
 //$tours_list = $tours->get_list_condition($query);
 ?>
 <div class="site wrapper-content" <?php echo $background ? 'style="background: url('.$background.');background-size:cover;"' : ''; ?>>
-	<?php if($b) : ?>
+	<?php if($dmt['hinhanh']) : ?>
 	<div class="home-content" role="main">
 		<div class="top_site_main"></div>
 		<div id="home-page-slider-image" class="carousel slide" data-ride="carousel">
 			<!-- Wrapper for slides -->
 			<div class="carousel-inner" role="listbox">
-			<?php foreach($b['banner'] as $k => $v){
-				$file = $target_banner .  $v['aliasname'];
-				$thumb = $target_banner . 'thumb/' .  $v['aliasname'];
+			<?php foreach($dmt['hinhanh'] as $k => $v){
+				$file = $target_images .  $v['aliasname'];
+				$thumb = $target_images . 'thumbs/' .  $v['aliasname'];
 				if(!file_exists($thumb)){
 					resize_image($file , null, 1920, 500, false , $thumb , false , false ,100 );
 				}
@@ -79,6 +79,9 @@ $tours_list = $tours->get_list_to_condition_position($query, $position, $items_o
 										<span class="price">
 										<?php echo nl2br($tour['mota']); ?>
 										</span>
+										<?php if(isset($tour['hot']) && $tour['hot']) : ?>
+											<span class="onsale" style="background:none;"><img src="images/icon_hot.gif"></span>
+										<?php endif; ?>
 										<img width="430" height="305" src="<?php echo $thumb; ?>" alt="<?php echo $tour['tieude']; ?>" title="<?php echo $tour['tieude']; ?>">
 									</a>
 								</div>

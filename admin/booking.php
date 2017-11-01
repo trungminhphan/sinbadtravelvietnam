@@ -28,7 +28,9 @@ $booking_list = $booking->get_all_list();
                             <th>Điện thoại</th>
                             <th>Email</th>
                             <th>Tên tour</th>
-                            <th>Số vé</th>
+                            <th>Số khách</th>
+                            <th>Ghi chú</th>
+                            <th>Thời gian tương tác</th>
                             <th class="text-center"><i class="fa fa-trash"></i></th>
                         </tr>
                     </thead>
@@ -49,6 +51,8 @@ $booking_list = $booking->get_all_list();
                                 <td>'.$dm['email'].'</td>
                                 <td><a href="../tour_detail.html?id='.$id_tour.'" target="_blank">'.$tentour.'</a></td>
                                 <td>'.$dm['sove'].'</td>
+                                <td>'.$dm['ghichu'].'</td>
+                                <td>'.date("d/m/Y H:i", $dm['date_post']->sec).'</td>
                                 <td class="text-center"><a href="get.booking.html?id='.$dm['_id'].'&act=del" onclick="return confirm(\'Chắc chắn muốn xoá?\');"><i class="fa fa-trash"></i></a></td>
                             </tr>';$i++;
                         }

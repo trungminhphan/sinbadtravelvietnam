@@ -81,6 +81,9 @@ $tours_list = $tours->get_list_to_position($position, $items_of_page);
 										<span class="price">
 										<?php echo nl2br($tour['mota']); ?>
 										</span>
+										<?php if(isset($tour['hot']) && $tour['hot']) : ?>
+											<span class="onsale" style="background:none;"><img src="images/icon_hot.gif"></span>
+										<?php endif; ?>
 										<img width="430" height="305" src="<?php echo $thumb; ?>" alt="<?php echo $tour['tieude']; ?>" title="<?php echo $tour['tieude']; ?>">
 									</a>
 								</div>
@@ -219,7 +222,7 @@ $tours_list = $tours->get_list_to_position($position, $items_of_page);
 							}
 							echo '<div class="inner-special-tours">
 									<div class="post_title">
-										<a href="chitiettuvanvisa.html?id='.$tt['_id'].'" rel="bookmark">
+										<a href="chitiettintuc.html?id='.$tt['_id'].'" rel="bookmark">
 											<img width="80" height="60" src="'.$thumb.'" alt="'.$tt['tieude'].'" title="'.$tt['tieude'].'">
 											'.$tt['tieude'].'
 										</a>

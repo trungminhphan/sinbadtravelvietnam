@@ -84,7 +84,7 @@ function googleTranslateElementInit() {
 											<input type="text" class="input" name="dienthoai" id="dienthoai" value="" required>
 										</p>
 										<p class="form-row">
-											<label for="reg_email">Số vé<span class="required"></span></label>
+											<label for="reg_email">Số khách<span class="required"></span></label>
 											<input type="text" class="input" name="sove" id="sove" value="1" required>
 										</p>
 										<p class="form-row">
@@ -119,6 +119,9 @@ function googleTranslateElementInit() {
 					<ul class="nav navbar-nav menu-main-menu side-nav" id="mobile-demo">
 						<li class="<?php echo $l == 'index.html' ? 'current-menu-ancestor' : ''; ?>">
 							<a href="index.html">Trang chủ</a>
+							<ul class="sub-menu">
+								<li><a href="chitiettintuc.html?id=59edf42951e3a5f3668b4567">Giới thiệu</a></li>
+							</ul>
 						</li>
 						<?php
 						if($danhmuctour_list){
